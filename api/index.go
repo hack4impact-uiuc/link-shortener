@@ -6,8 +6,21 @@ import (
 	"os"
 )
 
+var redirects = map[string]string{
+	"foo": "bar",
+}
+
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
+	path := r.URL.Path
+
+	if path == "/" {
+		fmt.Fprintf(w, "index")
+	} else if redirect, ok := redirects[path[1:]]; ok {
+		fmt.Fprint(w, redirect)
+	} else {
+		fmt.Fprintf(w, "not found")
+
+	}
 }
 
 func main() {

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 )
 
@@ -15,7 +16,10 @@ var redirects = map[string]string{
 func Handler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 
-	if redirect, ok := redirects[path[1:]]; ok {
+	if path == "/redirects" {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(redirects)
+	} else if redirect, ok := redirects[path[1:]]; ok {
 		http.Redirect(w, r, redirect, http.StatusMovedPermanently)
 	} else {
 		http.NotFound(w, r)

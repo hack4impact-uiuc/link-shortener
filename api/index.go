@@ -1,9 +1,10 @@
-package main
+package index
 
 import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var redirects = map[string]string{
@@ -15,16 +16,19 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	if path == "/" {
 		http.ServeFile(w, r, "./static/index.html")
+	} else if strings.HasPrefix(path, "/static") {
+		file_path := "." + path
+
+		if _, err := os.Stat(file_path); err == nil {
+			fmt.Print("here")
+			http.ServeFile(w, r, file_path)
+		} else {
+			http.ServeFile(w, r, "./static/404.html")
+			fmt.Print("not here")
+		}
 	} else if redirect, ok := redirects[path[1:]]; ok {
 		http.Redirect(w, r, redirect, http.StatusMovedPermanently)
 	} else {
 		http.ServeFile(w, r, "./static/404.html")
 	}
-}
-
-func main() {
-	fmt.Fprintf(os.Stdout, "Web Server started. Listening on 0.0.0.0:8080\n")
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-	http.HandleFunc("/", Handler)
-	http.ListenAndServe(":8080", nil)
 }

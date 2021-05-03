@@ -1,0 +1,15 @@
+{
+  "functions": {
+    "api/index.go": {
+      "includeFiles": "static/**/*"
+    }
+  },
+  "rewrites": [
+    { "source": "/", "destination": "static/index.html" },
+    { "source": "/static/(.*)", "destination": "static/$1" },
+    {
+      "source": "/(.*)",
+      "destination": "api/index.go"
+    }
+  ]
+}

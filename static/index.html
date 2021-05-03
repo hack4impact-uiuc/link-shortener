@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="theme-color" content="#155DA1" />
+    <meta name="title" content="Hack4Impact UIUC" />
+
+    <link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
+    <link rel="icon" type="image/png" href="/logo-16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/logo-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/logo-apple-touch-icon.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <style>
+      :root {
+        --blue: #155da1;
+        --blue-light: #3e87cd;
+        --blue-lighter: #b4d8fa;
+        --blue-dark: #0e4e8a;
+        --blue-darker: #0d3f6e;
+        --gray-lighter: #ebeef2;
+        --gray-light: #8b9199;
+        --text-dark: #031425;
+      }
+
+      @font-face {
+        font-family: "Chivo";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("static/fonts/chivo.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Open Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("static/fonts/open-sans.woff2") format("woff2");
+      }
+
+      @media (min-width: 2560px) {
+        :root {
+          --header-width: min(2160px, 90vw);
+          --content-width: min(1800px, 80vw);
+          --long-form-width: min(1200px, 70vw);
+        }
+      }
+
+      body {
+        margin: 0;
+        font-family: Open Sans, Roboto, Lato, Arial, -apple-system,
+          BlinkMacSystemFont, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--text-dark);
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0 0 0.5em 0;
+        font-weight: 400;
+        line-height: 1.2;
+        font-family: Chivo, sans-serif;
+      }
+
+      h1 {
+        font-size: 56px;
+      }
+
+      h2 {
+        font-size: 32px;
+      }
+
+      h3 {
+        font-size: 24px;
+      }
+
+      h4,
+      p {
+        font-size: 20px;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      p {
+        margin-top: 0;
+      }
+
+      @media (min-width: 400px) {
+        body {
+          font-size: 16px;
+        }
+      }
+
+      .row-center {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .column-center {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello</h1>
+  </body>
+</html>

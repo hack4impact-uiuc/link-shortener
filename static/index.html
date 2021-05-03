@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="theme-color" content="#155DA1" />
+    <title>Hack4Impact UIUC</title>
+
+    <link
+      rel="manifest"
+      href="static/manifest.json"
+      crossorigin="use-credentials"
+    />
+    <link rel="icon" type="image/png" href="static/logo-16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="static/logo-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="static/logo-apple-touch-icon.png" />
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
+
+    <style>
+      :root {
+        --blue: #155da1;
+        --gray-lighter: #ebeef2;
+        --text-dark: #031425;
+      }
+
+      @font-face {
+        font-family: "Chivo";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("static/fonts/chivo.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Open Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("static/fonts/open-sans.woff2") format("woff2");
+      }
+
+      body {
+        margin: 0;
+        font-family: Open Sans, Roboto, Lato, Arial, -apple-system,
+          BlinkMacSystemFont, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--text-dark);
+        background-color: var(--gray-lighter);
+      }
+
+      h1,
+      h2 {
+        margin: 0 0 0.5em 0;
+        font-weight: 400;
+        line-height: 1.2;
+        font-family: Chivo, sans-serif;
+      }
+
+      h1 {
+        font-size: min(10vmin, 56px);
+      }
+
+      h2 {
+        font-size: min(6vmin, 32px);
+      }
+
+      a {
+        color: var(--blue);
+      }
+
+      li {
+        margin-bottom: 0.5em;
+        font-size: min(4vmin, 20px);
+      }
+
+      .row-center {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .column-center {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      #banner {
+        background-color: var(--blue);
+        color: #fff;
+        padding: 60px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="banner" class="column-center">
+      <h1>Hack4Impact UIUC</h1>
+      <h2>Link Shortener</h2>
+    </section>
+    <section id="contents" class="row-center">
+      <ul id="redirects"></ul>
+    </section>
+
+    <script>
+      fetch("redirects")
+        .then((res) => res.json())
+        .then((redirects) => {
+          const redirectList = document.getElementById("redirects");
+          for (alias in redirects) {
+            const redirectLink = document.createElement("a");
+            redirectLink.href = redirects[alias];
+            redirectLink.target = "_blank";
+            redirectLink.rel = "noopener noreferrer";
+            redirectLink.appendChild(
+              document.createTextNode(`h4i.app/${alias}`)
+            );
+
+            const redirectListItem = document.createElement("li");
+            redirectListItem.appendChild(redirectLink);
+
+            redirectList.appendChild(redirectListItem);
+          }
+        });
+    </script>
+  </body>
+</html>

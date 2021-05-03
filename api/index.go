@@ -18,8 +18,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	} else if redirect, ok := redirects[path[1:]]; ok {
 		fmt.Fprint(w, redirect)
 	} else {
-		fmt.Fprintf(w, "not found")
-
+		http.ServeFile(w, r, "./static/404.html")
 	}
 }
 

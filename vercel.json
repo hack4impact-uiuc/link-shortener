@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/index.go": {
+    "api/handler.go": {
       "includeFiles": "static/**/*"
     }
   },
@@ -9,7 +9,7 @@
     { "source": "/static/(.*)", "destination": "static/$1" },
     {
       "source": "/(.*)",
-      "destination": "api/index.go"
+      "destination": "api/handler.go"
     }
   ]
 }

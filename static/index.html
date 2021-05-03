@@ -46,7 +46,7 @@
         font-size: 14px;
         line-height: 1.5;
         color: var(--text-dark);
-        background-color: var(--gray-lighter);
+        background-color: #fff;
       }
 
       h1,
@@ -69,9 +69,37 @@
         color: var(--blue);
       }
 
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        width: 100%;
+      }
+
       li {
-        margin-bottom: 0.5em;
         font-size: min(4vmin, 20px);
+        border-bottom: 1px solid var(--gray-lighter);
+      }
+
+      li a {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+        height: 4em;
+        margin: 0 auto;
+        text-decoration: none;
+        padding: 0 22vw;
+      }
+
+      @media screen and (max-width: 800px) {
+        li a {
+          padding: 0 min(1.5em, 10vw);
+        }
+      }
+
+      li:hover {
+        background-color: var(--gray-lighter);
       }
 
       .row-center {
@@ -91,7 +119,52 @@
       #banner {
         background-color: var(--blue);
         color: #fff;
-        padding: 60px 0;
+        padding: min(60px, 15vw) 0;
+      }
+
+      :root {
+        --icon-size: 1;
+      }
+      @media screen and (max-width: 600px) {
+        :root {
+          --icon-size: 0.75;
+        }
+      }
+
+      i.link-icon {
+        box-sizing: border-box;
+        position: relative;
+        display: block;
+        width: 22px;
+        height: 22px;
+        border: 2px solid;
+        transform: scale(var(--icon-size));
+        border-radius: 4px;
+      }
+
+      i.link-icon::after,
+      i.link-icon::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        right: 4px;
+      }
+
+      i.link-icon::after {
+        width: 10px;
+        height: 2px;
+        background: currentColor;
+        transform: rotate(-45deg);
+        bottom: 8px;
+      }
+
+      i.link-icon::before {
+        width: 6px;
+        height: 6px;
+        top: 4px;
+        border-top: 2px solid;
+        border-right: 2px solid;
       }
     </style>
   </head>
@@ -117,6 +190,10 @@
             redirectLink.appendChild(
               document.createTextNode(`h4i.app/${alias}`)
             );
+
+            const redirectIcon = document.createElement("i");
+            redirectIcon.className = "link-icon";
+            redirectLink.appendChild(redirectIcon);
 
             const redirectListItem = document.createElement("li");
             redirectListItem.appendChild(redirectLink);

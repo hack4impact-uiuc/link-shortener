@@ -7,7 +7,7 @@ import (
 )
 
 var redirects = map[string]string{
-	"foo": "bar",
+	"website": "https://uiuc.hack4impact.org",
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -16,7 +16,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if path == "/" {
 		http.ServeFile(w, r, "./static/index.html")
 	} else if redirect, ok := redirects[path[1:]]; ok {
-		fmt.Fprint(w, redirect)
+		http.Redirect(w, r, redirect, http.StatusMovedPermanently)
 	} else {
 		http.ServeFile(w, r, "./static/404.html")
 	}

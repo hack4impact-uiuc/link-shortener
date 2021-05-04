@@ -10,6 +10,8 @@ var redirects = map[string]string{
 	"ly-interest": "https://docs.google.com/forms/d/e/1FAIpQLSeRbPeglRvMHgLiTIh9mhWRe1NY2y4ki26BTTgsfrdY4UjqSw/viewform",
 	"ly-external": "https://docs.google.com/forms/d/e/1FAIpQLSeb-5WluYBsjBeCI7AIFoWHhLbmvRibn9eGkiAZ4obFsHHzUw/viewform",
 	"ly-tech":     "https://docs.google.com/forms/d/e/1FAIpQLSeWADqb8Ge9jtQh-KSUax9MfBpZXepTSdwUijFMaocRhb3Sbw/viewform",
+	"product-take-home": "https://forms.gle/koqmC5d1GEcoaVc96",
+	"interview": "https://doodle.com/poll/acf5x3nuid35v429",
 	// "ly-join":     "https://www.notion.so/h4iuiuc/Join-Hack4Impact-UIUC-2e875ce396b34e6ebb23c6dda57a89aa", // same as h4i.app/ly
 }
 

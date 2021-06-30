@@ -184,12 +184,12 @@
           const redirectList = document.getElementById("redirects");
           for (alias in redirects) {
             const redirectLink = document.createElement("a");
-            redirectLink.href = redirects[alias];
+            const redirect = redirects[alias];
+
+            redirectLink.href = redirect.link;
             redirectLink.target = "_blank";
             redirectLink.rel = "noopener noreferrer";
-            redirectLink.appendChild(
-              document.createTextNode(`h4i.app/${alias}`)
-            );
+            redirectLink.appendChild(document.createTextNode(redirect.name));
 
             const redirectIcon = document.createElement("i");
             redirectIcon.className = "link-icon";

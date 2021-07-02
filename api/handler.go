@@ -8,21 +8,34 @@ import (
 type Redirect struct {
 	Name  string `json:"name"`
 	Link  string `json:"link"`
-	Order uint   `json:"order"`
+	Order int    `json:"order"`
 }
 
-var redirects = map[string]Redirect{
-	"website":     {Name: "Our Website", Link: "https://uiuc.hack4impact.org/", Order: 0},
-	"ly":          {Name: "Join Us", Link: "https://www.notion.so/h4iuiuc/Join-Hack4Impact-UIUC-2e875ce396b34e6ebb23c6dda57a89aa", Order: 1},
-	"ly-interest": {Name: "Interest Form", Link: "https://docs.google.com/forms/d/e/1FAIpQLSeRbPeglRvMHgLiTIh9mhWRe1NY2y4ki26BTTgsfrdY4UjqSw/viewform", Order: 2},
-	"instagram":   {Name: "Instagram", Link: "https://www.instagram.com/hack4impactuiuc/", Order: 3},
-	"facebook":    {Name: "Facebook", Link: "https://www.facebook.com/h4iuiuc", Order: 4},
-	"github":      {Name: "GitHub", Link: "https://github.com/hack4impact-uiuc", Order: 5},
-	"medium":      {Name: "Medium", Link: "https://medium.com/hack4impact-uiuc", Order: 6},
-	"youtube":     {Name: "YouTube", Link: " https://www.youtube.com/channel/UCmnm4j_IYDP5YCJ-msOZBwg", Order: 7},
+type RedirectListItem struct {
+	Alias string
+	Name  string
+	Link  string
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	redirectList := [...]RedirectListItem{
+		{Alias: "website", Name: "Our Website", Link: "https://uiuc.hack4impact.org/"},
+		{Alias: "ly", Name: "Join Us", Link: "https://www.notion.so/h4iuiuc/Join-Hack4Impact-UIUC-2e875ce396b34e6ebb23c6dda57a89aa"},
+		{Alias: "ly-interest", Name: "Interest Form", Link: "https://docs.google.com/forms/d/e/1FAIpQLSeRbPeglRvMHgLiTIh9mhWRe1NY2y4ki26BTTgsfrdY4UjqSw/viewform"},
+		{Alias: "instagram", Name: "Instagram", Link: "https://www.instagram.com/hack4impactuiuc/"},
+		{Alias: "facebook", Name: "Facebook", Link: "https://www.facebook.com/h4iuiuc"},
+		{Alias: "github", Name: "GitHub", Link: "https://github.com/hack4impact-uiuc"},
+		{Alias: "medium", Name: "Medium", Link: "https://medium.com/hack4impact-uiuc"},
+		{Alias: "youtube", Name: "YouTube", Link: " https://www.youtube.com/channel/UCmnm4j_IYDP5YCJ-msOZBwg"},
+	}
+
+	redirects := make(map[string]Redirect)
+
+	for i := 0; i < len(redirectList); i += 2 {
+		redirect := redirectList[i]
+		redirects[redirect.Alias] = Redirect{Name: redirect.Name, Link: redirect.Link, Order: i}
+	}
+
 	path := r.URL.Path
 
 	if path == "/redirects" {

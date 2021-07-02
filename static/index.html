@@ -190,7 +190,7 @@
 
           redirectKeys.forEach((redirectKey) => {
             const redirectLink = document.createElement("a");
-            const redirect = redirects[alias];
+            const redirect = redirects[redirectKey];
 
             redirectLink.href = redirect.link;
             redirectLink.target = "_blank";

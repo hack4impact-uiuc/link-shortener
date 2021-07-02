@@ -20,8 +20,8 @@ type RedirectListItem struct {
 func Handler(w http.ResponseWriter, r *http.Request) {
 	redirectList := [...]RedirectListItem{
 		{Alias: "website", Name: "Our Website", Link: "https://uiuc.hack4impact.org/"},
-		{Alias: "ly", Name: "Join Us", Link: "https://www.notion.so/h4iuiuc/Join-Hack4Impact-UIUC-2e875ce396b34e6ebb23c6dda57a89aa"},
-		{Alias: "ly-interest", Name: "Interest Form", Link: "https://docs.google.com/forms/d/e/1FAIpQLSeRbPeglRvMHgLiTIh9mhWRe1NY2y4ki26BTTgsfrdY4UjqSw/viewform"},
+		{Alias: "ly", Name: "Student Application Info", Link: "https://www.notion.so/h4iuiuc/Join-Hack4Impact-UIUC-2e875ce396b34e6ebb23c6dda57a89aa"},
+		{Alias: "ly-interest", Name: "Student Interest Form", Link: "https://docs.google.com/forms/d/e/1FAIpQLSeRbPeglRvMHgLiTIh9mhWRe1NY2y4ki26BTTgsfrdY4UjqSw/viewform"},
 		{Alias: "instagram", Name: "Instagram", Link: "https://www.instagram.com/hack4impactuiuc/"},
 		{Alias: "facebook", Name: "Facebook", Link: "https://www.facebook.com/h4iuiuc"},
 		{Alias: "github", Name: "GitHub", Link: "https://github.com/hack4impact-uiuc"},

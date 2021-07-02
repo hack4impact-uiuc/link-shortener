@@ -31,7 +31,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	redirects := make(map[string]Redirect)
 
-	for i := 0; i < len(redirectList); i += 2 {
+	for i := 0; i < len(redirectList); i += 1 {
 		redirect := redirectList[i]
 		redirects[redirect.Alias] = Redirect{Name: redirect.Name, Link: redirect.Link, Order: i}
 	}

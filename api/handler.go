@@ -11,8 +11,14 @@ type Redirect struct {
 }
 
 var redirects = map[string]Redirect{
-	"ly":          {Name: "Join us", Link: "https://www.notion.so/h4iuiuc/Join-Hack4Impact-UIUC-2e875ce396b34e6ebb23c6dda57a89aa"},
-	"ly-interest": {Name: "Interest form", Link: "https://docs.google.com/forms/d/e/1FAIpQLSeRbPeglRvMHgLiTIh9mhWRe1NY2y4ki26BTTgsfrdY4UjqSw/viewform"},
+	"website":     {Name: "Our Website", Link: "https://uiuc.hack4impact.org/"},
+	"ly":          {Name: "Join Us", Link: "https://www.notion.so/h4iuiuc/Join-Hack4Impact-UIUC-2e875ce396b34e6ebb23c6dda57a89aa"},
+	"ly-interest": {Name: "Interest Form", Link: "https://docs.google.com/forms/d/e/1FAIpQLSeRbPeglRvMHgLiTIh9mhWRe1NY2y4ki26BTTgsfrdY4UjqSw/viewform"},
+	"instagram":   {Name: "Instagram", Link: "https://www.instagram.com/hack4impactuiuc/"},
+	"facebook":    {Name: "Facebook", Link: "https://www.facebook.com/h4iuiuc"},
+	"github":      {Name: "GitHub", Link: "https://github.com/hack4impact-uiuc"},
+	"medium":      {Name: "Medium", Link: "https://medium.com/hack4impact-uiuc"},
+	"youtube":     {Name: "YouTube", Link: " https://www.youtube.com/channel/UCmnm4j_IYDP5YCJ-msOZBwg"},
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {

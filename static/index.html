@@ -182,7 +182,13 @@
         .then((res) => res.json())
         .then((redirects) => {
           const redirectList = document.getElementById("redirects");
-          for (alias in redirects) {
+          const redirectKeys = Object.keys(redirects);
+          redirectKeys.sort(
+            (redirectA, redirectB) =>
+              redirects[redirectA].order - redirects[redirectB].order
+          );
+
+          for (alias in redirectKeys) {
             const redirectLink = document.createElement("a");
             const redirect = redirects[alias];
 

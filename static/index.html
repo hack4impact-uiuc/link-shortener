@@ -188,8 +188,7 @@
               redirects[redirectA].order - redirects[redirectB].order
           );
 
-          for (alias in redirectKeys) {
-            console.log(alias);
+          redirectKeys.forEach((redirectKey) => {
             const redirectLink = document.createElement("a");
             const redirect = redirects[alias];
 
@@ -206,7 +205,7 @@
             redirectListItem.appendChild(redirectLink);
 
             redirectList.appendChild(redirectListItem);
-          }
+          });
         });
     </script>
   </body>

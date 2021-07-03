@@ -182,9 +182,15 @@
         .then((res) => res.json())
         .then((redirects) => {
           const redirectList = document.getElementById("redirects");
-          for (alias in redirects) {
+          const redirectKeys = Object.keys(redirects);
+          redirectKeys.sort(
+            (redirectA, redirectB) =>
+              redirects[redirectA].order - redirects[redirectB].order
+          );
+
+          redirectKeys.forEach((redirectKey) => {
             const redirectLink = document.createElement("a");
-            const redirect = redirects[alias];
+            const redirect = redirects[redirectKey];
 
             redirectLink.href = redirect.link;
             redirectLink.target = "_blank";
@@ -199,7 +205,7 @@
             redirectListItem.appendChild(redirectLink);
 
             redirectList.appendChild(redirectListItem);
-          }
+          });
         });
     </script>
   </body>

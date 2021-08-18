@@ -28,6 +28,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		{Alias: "medium", Name: "Medium", Link: "https://medium.com/hack4impact-uiuc"},
 		{Alias: "youtube", Name: "YouTube", Link: " https://www.youtube.com/channel/UCmnm4j_IYDP5YCJ-msOZBwg"},
 		{Alias: "info-session", Name: "Info Session", Link: "https://www.facebook.com/events/1907479396095709/?ref=newsfeed"}, 
+		{Alias: "apply", Name: "Application", Link: "https://forms.gle/xh6kFu38PGFDcTZY9"}, 
 	}
 
 	redirects := make(map[string]Redirect)

@@ -21,10 +21,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	redirectList := [...]RedirectListItem{
 		{Alias: "website", Name: "Our Website", Link: "https://uiuc.hack4impact.org/"},
 		{Alias: "ly", Name: "Student Application Info", Link: "https://www.notion.so/h4iuiuc/Join-Hack4Impact-UIUC-2e875ce396b34e6ebb23c6dda57a89aa"},
-		{Alias: "ly-interest", Name: "Student Interest Form", Link: "https://docs.google.com/forms/d/e/1FAIpQLSeRbPeglRvMHgLiTIh9mhWRe1NY2y4ki26BTTgsfrdY4UjqSw/viewform"},
-		{Alias: "apply", Name: "Application", Link: "https://forms.gle/xh6kFu38PGFDcTZY9"},
-		{Alias: "info-night", Name: "Info Night Recording", Link: "https://youtu.be/IkJlJZu3EfI"}, 
-		{Alias: "info-night-slides", Name: "Info Night Slides", Link: "https://docs.google.com/presentation/d/1PSAWBBmRaN117m5GkbMleJyokRn8BrQPpORuwSeGckc/edit?usp=sharing"}, 
+		{Alias: "ly-interest", Name: "Student Interest Form", Link: "https://forms.gle/cjeSydXMviQ9A2jz9"},
 		{Alias: "instagram", Name: "Instagram", Link: "https://www.instagram.com/hack4impactuiuc/"},
 		{Alias: "facebook", Name: "Facebook", Link: "https://www.facebook.com/h4iuiuc"},
 		{Alias: "github", Name: "GitHub", Link: "https://github.com/hack4impact-uiuc"},

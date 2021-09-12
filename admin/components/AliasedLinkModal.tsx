@@ -40,17 +40,26 @@ export default function AliasedLinkModal(props: AliasedLinkModalProps) {
         okText="Save"
       >
         <Form initialValues={initialValues} form={form}>
-          <Tooltip title="This is used to identify the aliased link on h4i.app's interface.">
+          <Tooltip
+            title="This is used to identify the aliased link on h4i.app's interface."
+            placement="left"
+          >
             <Form.Item label="Name" name="name" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
           </Tooltip>
-          <Tooltip title="The is the suffix of the shortened form of the aliased link.">
+          <Tooltip
+            title="The is the suffix of the shortened form of the aliased link."
+            placement="left"
+          >
             <Form.Item label="Alias" name="alias" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
           </Tooltip>
-          <Tooltip title="This is where the aliased link leads to.">
+          <Tooltip
+            title="This is where the aliased link leads to."
+            placement="left"
+          >
             <Form.Item
               label="Destination"
               name="destination"
@@ -59,7 +68,10 @@ export default function AliasedLinkModal(props: AliasedLinkModalProps) {
               <Input />
             </Form.Item>
           </Tooltip>
-          <Tooltip title="This sets whether or not the aliased link will be visible on h4i.app's interface.">
+          <Tooltip
+            title="This sets whether or not the aliased link will be visible on h4i.app's interface."
+            placement="left"
+          >
             <Form.Item
               label="Public"
               name="public"

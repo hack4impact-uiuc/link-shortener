@@ -1,11 +1,7 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { AliasedLinkTable, NewButton } from "../components";
-import {
-  AliasedLink,
-  mongoConnect,
-  AliasedLinkType,
-} from "link-shortener-common";
+import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
 
 interface HomeProps {
   aliasedLinks: AliasedLinkType[];

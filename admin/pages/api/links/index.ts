@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { AliasedLink, mongoConnect } from "link-shortener-common";
+import { AliasedLink, mongoConnect } from "../../../utils";
 
 export default async function handler(
   req: NextApiRequest,

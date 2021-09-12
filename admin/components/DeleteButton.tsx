@@ -1,7 +1,7 @@
 import { Button, Popover, Space } from "antd";
-import { AliasedLinkType } from "link-shortener-common";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { AliasedLinkType } from "../utils";
 
 interface DeleteButtonProps {
   aliasedLink: AliasedLinkType;

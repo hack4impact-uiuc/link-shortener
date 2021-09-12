@@ -1,9 +1,5 @@
 import type { NextPage } from "next";
-import {
-  AliasedLink,
-  mongoConnect,
-  AliasedLinkType,
-} from "link-shortener-common";
+import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
 
 interface HomeProps {
   aliasedLinks: AliasedLinkType[];

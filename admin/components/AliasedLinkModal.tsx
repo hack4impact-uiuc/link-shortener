@@ -8,7 +8,7 @@ import {
   Modal,
   Tooltip,
 } from "antd";
-import { AliasedLinkType } from "link-shortener-common";
+import { AliasedLinkType } from "../utils";
 
 interface AliasedLinkModalProps {
   initialValues?: AliasedLinkType;

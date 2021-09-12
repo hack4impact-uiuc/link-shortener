@@ -7,9 +7,11 @@ export interface AliasedLinkType {
   public: boolean;
 }
 
+// @ts-ignore
 let cached = global.mongoose as any;
 
 if (!cached) {
+  // @ts-ignore
   cached = global.mongoose = { conn: null, promise: null };
 }
 

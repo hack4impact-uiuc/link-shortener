@@ -2,7 +2,7 @@ import { Space, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
-import { AliasedLinkType } from "link-shortener-common";
+import { AliasedLinkType } from "../utils";
 
 interface AliasedLinkTableProps {
   aliasedLinks: AliasedLinkType[];

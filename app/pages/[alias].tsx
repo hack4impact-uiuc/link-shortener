@@ -1,4 +1,4 @@
-import { AliasedLink, mongoConnect } from "link-shortener-common";
+import { AliasedLink, mongoConnect } from "../utils";
 
 export default function Alias() {
   return null;

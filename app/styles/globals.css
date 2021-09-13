@@ -1,0 +1,149 @@
+:root {
+  --blue: #155da1;
+  --gray-lighter: #ebeef2;
+  --text-dark: #031425;
+}
+
+@font-face {
+  font-family: "Chivo";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/chivo.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/open-sans.woff2") format("woff2");
+}
+
+body {
+  margin: 0;
+  font-family: Open Sans, Roboto, Lato, Arial, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-dark);
+  background-color: #fff;
+}
+
+h1,
+h2 {
+  margin: 0 0 0.5em 0;
+  font-weight: 400;
+  line-height: 1.2;
+  font-family: Chivo, sans-serif;
+}
+
+h1 {
+  font-size: min(10vmin, 56px);
+}
+
+h2 {
+  font-size: min(6vmin, 32px);
+}
+
+a {
+  color: var(--blue);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;
+}
+
+li {
+  font-size: min(4vmin, 20px);
+  border-bottom: 1px solid var(--gray-lighter);
+}
+
+li a {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  height: 4em;
+  margin: 0 auto;
+  text-decoration: none;
+  padding: 0 22vw;
+}
+
+@media screen and (max-width: 800px) {
+  li a {
+    padding: 0 min(1.5em, 10vw);
+  }
+}
+
+li:hover {
+  background-color: var(--gray-lighter);
+}
+
+.row-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#banner {
+  background-color: var(--blue);
+  color: #fff;
+  padding: min(60px, 15vw) 0;
+}
+
+:root {
+  --icon-size: 1;
+}
+@media screen and (max-width: 600px) {
+  :root {
+    --icon-size: 0.75;
+  }
+}
+
+i.link-icon {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid;
+  transform: scale(var(--icon-size));
+  border-radius: 4px;
+}
+
+i.link-icon::after,
+i.link-icon::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  right: 4px;
+}
+
+i.link-icon::after {
+  width: 10px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  bottom: 8px;
+}
+
+i.link-icon::before {
+  width: 6px;
+  height: 6px;
+  top: 4px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}

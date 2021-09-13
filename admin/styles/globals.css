@@ -1,0 +1,78 @@
+:root {
+  --blue: #155da1;
+  --gray-lighter: #ebeef2;
+  --text-dark: #031425;
+}
+
+@font-face {
+  font-family: "Chivo";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/chivo.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/open-sans.woff2") format("woff2");
+}
+
+body {
+  margin: 0;
+  font-family: Open Sans, Roboto, Lato, Arial, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-dark);
+  background-color: #fff;
+}
+
+h1,
+h2 {
+  margin: 0 0 0.5em 0;
+  font-weight: 400;
+  line-height: 1.2;
+  font-family: Chivo, sans-serif;
+}
+
+h1 {
+  font-size: min(8vmin, 40px);
+}
+
+h2 {
+  font-size: min(6vmin, 32px);
+}
+
+a {
+  color: var(--blue);
+}
+
+.ant-layout-header {
+  color: #fff !important;
+  background-color: var(--blue);
+  padding: 10px 5%;
+  height: auto;
+  /* display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; */
+}
+
+.ant-layout-content {
+  padding: 40px 10% 0;
+}
+
+#title {
+  color: #fff;
+  margin: 0;
+}
+
+.row-center-space-between {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}

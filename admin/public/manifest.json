@@ -1,8 +1,8 @@
 {
   "background_color": "#ffffff",
   "theme_color": "#155DA1",
-  "name": "Hack4Impact UIUC",
-  "short_name": "Hack4Impact UIUC",
+  "name": "Link Shortener Admin | Hack4Impact UIUC",
+  "short_name": "Link Shortener Admin | Hack4Impact UIUC",
   "display": "browser",
   "start_url": "/",
   "icons": [

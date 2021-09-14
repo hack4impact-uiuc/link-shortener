@@ -4,6 +4,7 @@ export interface AliasedLinkType {
   alias: string;
   destination: string;
   name: string;
+  order: number;
   public: boolean;
 }
 
@@ -47,6 +48,10 @@ const AliasedLinkSchema = new Schema<AliasedLinkType>({
   },
   name: {
     type: String,
+    required: true,
+  },
+  order: {
+    type: Number,
     required: true,
   },
   public: {

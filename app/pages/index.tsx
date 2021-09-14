@@ -39,7 +39,7 @@ export const getServerSideProps = async function () {
   await mongoConnect();
 
   const aliasedLinks = await AliasedLink.find({ public: true })
-    .sort({ name: 1 })
+    .sort({ order: 1 })
     .lean();
   // @ts-ignore
   aliasedLinks.forEach((link) => delete link._id);

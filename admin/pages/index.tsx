@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async function (context) {
     case process.env.ADMIN_EMAIL: {
       await mongoConnect();
 
-      const aliasedLinks = await AliasedLink.find().sort({ name: 1 }).lean();
+      const aliasedLinks = await AliasedLink.find().sort({ order: 1 }).lean();
       // @ts-ignore
       aliasedLinks.forEach((link) => (link._id = link._id.toString()));
 

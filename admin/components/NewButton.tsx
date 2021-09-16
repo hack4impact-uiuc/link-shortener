@@ -26,6 +26,7 @@ export default function NewButton() {
       form={form}
       handleSubmit={handleSubmit}
       name="Add aliased link"
+      initialValues={{ public: false }}
     />
   );
 }

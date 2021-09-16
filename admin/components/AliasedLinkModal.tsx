@@ -11,7 +11,7 @@ import {
 import { AliasedLinkType } from "../utils";
 
 interface AliasedLinkModalProps {
-  initialValues?: AliasedLinkType;
+  initialValues?: Partial<AliasedLinkType>;
   form: FormInstance;
   handleSubmit: () => Promise<void>;
   name: string;

@@ -1,10 +1,57 @@
+import { useState, useCallback, useRef } from "react";
 import { Space, Table } from "antd";
-import { ColumnsType } from "antd/lib/table";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import update from "immutability-helper";
 import { AliasedLinkType } from "../utils";
 
 const { Column } = Table;
+
+function DraggableBodyRow({
+  index,
+  moveRow,
+  className,
+  style,
+  ...restProps
+}: any) {
+  const ref = useRef();
+  const [{ isOver, dropClassName }, drop] = useDrop({
+    accept: "DraggableBodyRow",
+    collect: (monitor) => {
+      const { index: dragIndex } = (monitor.getItem() as any) || {};
+      if (dragIndex === index) {
+        return {};
+      }
+      return {
+        isOver: monitor.isOver(),
+        dropClassName:
+          dragIndex < index ? " drop-over-downward" : " drop-over-upward",
+      };
+    },
+    drop: (item: any) => {
+      moveRow(item.index, index);
+    },
+  });
+  const [, drag] = useDrag({
+    type: "DraggableBodyRow",
+    item: { index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+  drop(drag(ref));
+
+  return (
+    <tr
+      ref={ref}
+      className={`${className}${isOver ? dropClassName : ""}`}
+      style={{ cursor: "move", ...style }}
+      {...restProps}
+    />
+  );
+}
 
 interface AliasedLinkTableProps {
   aliasedLinks: AliasedLinkType[];

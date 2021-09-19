@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { ReactElement, useContext } from "react";
 import { useRouter } from "next/router";
 import { Form } from "antd";
 import AliasedLinkModal from "./AliasedLinkModal";
@@ -10,14 +10,14 @@ interface EditButtonProps {
   aliasedLink: AliasedLinkType;
 }
 
-export default function EditButton(props: EditButtonProps) {
+export default function EditButton(props: EditButtonProps): ReactElement {
   const { aliasedLink } = props;
   const { setError } = useContext(Context);
   const router = useRouter();
 
   const [form] = Form.useForm<AliasedLinkType>();
 
-  async function handleSubmit() {
+  async function handleSubmit(): Promise<void> {
     // @ts-ignore
     const aliasedLinkId = aliasedLink._id;
     const res = await updateAliasedLink(

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { ReactElement, useContext } from "react";
 import { useRouter } from "next/router";
 import { Form } from "antd";
 import AliasedLinkModal from "./AliasedLinkModal";
@@ -10,13 +10,13 @@ interface NewButtonProps {
   order: number;
 }
 
-export default function NewButton(props: NewButtonProps) {
+export default function NewButton(props: NewButtonProps): ReactElement {
   const { order } = props;
   const { setError } = useContext(Context);
   const router = useRouter();
   const [form] = Form.useForm<AliasedLinkType>();
 
-  const handleSubmit = async () => {
+  async function handleSubmit(): Promise<void> {
     const res = await createAliasedLink(
       { ...form.getFieldsValue(), order },
       setError
@@ -26,7 +26,7 @@ export default function NewButton(props: NewButtonProps) {
       form.resetFields();
       router.replace(router.asPath);
     }
-  };
+  }
 
   return (
     <AliasedLinkModal

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -17,15 +17,22 @@ interface AliasedLinkModalProps {
   name: string;
 }
 
-export default function AliasedLinkModal(props: AliasedLinkModalProps) {
+export default function AliasedLinkModal(
+  props: AliasedLinkModalProps
+): ReactElement {
   const { initialValues, form, handleSubmit, name } = props;
   const [modal, setModal] = useState(false);
 
-  function toggleModal() {
+  function toggleModal(): void {
     setModal((prevModal) => !prevModal);
   }
 
-  function handleCancel() {
+  async function onOk(): Promise<void> {
+    await handleSubmit();
+    toggleModal();
+  }
+
+  function handleCancel(): void {
     form.resetFields();
     toggleModal();
   }
@@ -37,7 +44,7 @@ export default function AliasedLinkModal(props: AliasedLinkModalProps) {
       </Button>
       <Modal
         visible={modal}
-        onOk={() => handleSubmit().then(() => toggleModal())}
+        onOk={onOk}
         onCancel={handleCancel}
         closable={false}
         okText="Save"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
@@ -10,7 +10,8 @@ import "../styles/globals.css";
 
 const { Content } = Layout;
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp(props: AppProps): ReactElement {
+  const { Component, pageProps } = props;
   const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {

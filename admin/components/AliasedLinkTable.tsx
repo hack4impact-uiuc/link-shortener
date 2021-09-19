@@ -1,4 +1,10 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
 import { Space, Table } from "antd";
 import { DndProvider } from "react-dnd";
@@ -18,7 +24,9 @@ interface AliasedLinkTableProps {
   orderChangingEnabled: boolean;
 }
 
-export default function AliasedLinkTable(props: AliasedLinkTableProps) {
+export default function AliasedLinkTable(
+  props: AliasedLinkTableProps
+): ReactElement {
   const { aliasedLinks, orderChangingEnabled } = props;
   const [orderedLinks, setOrderedLinks] = useState(aliasedLinks);
   const [orderModified, setOrderModified] = useState(false);
@@ -30,20 +38,21 @@ export default function AliasedLinkTable(props: AliasedLinkTableProps) {
   }, [aliasedLinks]);
 
   useEffect(() => {
-    if (orderModified) {
-      async function handleLinkOrderUpdates() {
-        const orderedIds = orderedLinks.map((aliasedLink, index) => ({
-          _id: (aliasedLink as any)._id,
-          order: index,
-        }));
+    async function handleLinkOrderUpdates(): Promise<void> {
+      const orderedIds = orderedLinks.map((aliasedLink, index) => ({
+        _id: (aliasedLink as any)._id,
+        order: index,
+      }));
 
-        const res = await updateLinkOrders(orderedIds, setError);
+      const res = await updateLinkOrders(orderedIds, setError);
 
-        if (res) {
-          setOrderModified(false);
-          router.replace(router.asPath);
-        }
+      if (res) {
+        setOrderModified(false);
+        router.replace(router.asPath);
       }
+    }
+
+    if (orderModified) {
       handleLinkOrderUpdates();
     }
   }, [orderedLinks, orderModified, router, setError]);

@@ -12,10 +12,12 @@ export async function authWrap(
     case process.env.ADMIN_EMAIL: {
       await mongoConnect();
       await callback(req, res);
+      break;
     }
 
     case undefined: {
       res.status(401);
+      break;
     }
 
     default: {

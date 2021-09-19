@@ -1,4 +1,5 @@
 // @ts-nocheck
+/* eslint-disable */
 // Sample untyped code from https://ant.design/components/table/#components-table-demo-drag-sorting
 
 import { useRef } from "react";

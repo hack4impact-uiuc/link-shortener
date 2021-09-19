@@ -5,7 +5,7 @@ import { authWrap } from "utils/auth";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+): Promise<void> {
   await authWrap(req, res, async (req, res) => {
     // @ts-ignore
     const methodHandler = methodHandlers[req.method];
@@ -24,7 +24,10 @@ const methodHandlers = {
   DELETE: deleteAliasedLink,
 };
 
-async function getAliasedLink(_: NextApiRequest, res: NextApiResponse) {
+async function getAliasedLink(
+  _: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
   const aliasedLink = await AliasedLink.find({});
 
   if (aliasedLink) {
@@ -34,7 +37,10 @@ async function getAliasedLink(_: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-async function putAliasedLink(req: NextApiRequest, res: NextApiResponse) {
+async function putAliasedLink(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
   try {
     const aliasedLink = await AliasedLink.findByIdAndUpdate(
       req.query.id,
@@ -52,7 +58,10 @@ async function putAliasedLink(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-async function deleteAliasedLink(req: NextApiRequest, res: NextApiResponse) {
+async function deleteAliasedLink(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
   try {
     const aliasedLink = await AliasedLink.findByIdAndDelete(req.query.id);
 

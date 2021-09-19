@@ -8,6 +8,7 @@ interface ContextType {
 
 const context: ContextType = {
   error: undefined,
+  /* eslint-disable-next-line */
   setError: (_: SetStateAction<string | undefined>) => {},
 };
 

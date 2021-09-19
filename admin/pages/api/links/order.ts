@@ -5,7 +5,7 @@ import { authWrap } from "utils/auth";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+): Promise<void> {
   await authWrap(req, res, async (req, res) => {
     if (req.method === "PUT") {
       const orderedIds: Array<{ _id: string; order: number }> = req.body;

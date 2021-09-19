@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { Space, Switch } from "antd";
@@ -13,7 +13,7 @@ interface HomeProps {
   error?: string;
 }
 
-export default function Home(props: HomeProps) {
+export default function Home(props: HomeProps): ReactElement {
   const { aliasedLinks, error, status } = props;
   const [orderChangingEnabled, setOrderChangingEnabled] = useState(false);
   const { setError } = useContext(Context);

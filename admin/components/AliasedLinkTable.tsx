@@ -79,7 +79,7 @@ export default function AliasedLinkTable(props: AliasedLinkTableProps) {
         dataSource={orderedLinks}
         rowKey={(aliasedLink: AliasedLinkType) => aliasedLink.alias}
         components={orderChangingEnabled ? components : undefined}
-        pagination={{ hideOnSinglePage: true }}
+        pagination={{ hideOnSinglePage: true, defaultPageSize: 20 }}
         onRow={(_, index) =>
           ({
             index,

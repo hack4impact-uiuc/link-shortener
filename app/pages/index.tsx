@@ -1,10 +1,12 @@
+import { ReactElement } from "react";
+import { GetServerSideProps } from "next";
 import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
 
 interface HomeProps {
   aliasedLinks: AliasedLinkType[];
 }
 
-export default function Home(props: HomeProps) {
+export default function Home(props: HomeProps): ReactElement {
   const { aliasedLinks } = props;
   return (
     <>
@@ -32,7 +34,7 @@ export default function Home(props: HomeProps) {
   );
 }
 
-export const getServerSideProps = async function () {
+export const getServerSideProps: GetServerSideProps = async function () {
   await mongoConnect();
 
   const aliasedLinks = await AliasedLink.find({ public: true })

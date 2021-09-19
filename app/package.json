@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "mongoose": "^6.0.5",
@@ -15,6 +16,7 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
+    "@hack4impact-uiuc/eslint-plugin": "^2.0.11",
     "@types/react": "17.0.20",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",

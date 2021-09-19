@@ -1,6 +1,7 @@
+import { GetServerSideProps } from "next";
 import { AliasedLink, mongoConnect } from "../utils";
 
-export default function Alias() {
+export default function Alias(): null {
   return null;
 }
 
@@ -8,7 +9,7 @@ interface Params {
   alias: string;
 }
 
-export const getServerSideProps = async function ({
+export const getServerSideProps: GetServerSideProps = async function ({
   params,
 }: {
   params: Params;
@@ -31,4 +32,4 @@ export const getServerSideProps = async function ({
   }
 
   return { notFound: true };
-};
+} as any;

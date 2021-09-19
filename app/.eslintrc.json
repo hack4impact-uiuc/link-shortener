@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["@hack4impact-uiuc"],
+  "extends": [
+    "plugin:@hack4impact-uiuc/base",
+    "plugin:@hack4impact-uiuc/react",
+    "plugin:@hack4impact-uiuc/typescript",
+    "next/core-web-vitals"
+  ]
 }

@@ -4,6 +4,7 @@ export interface AliasedLinkType {
   alias: string;
   destination: string;
   name: string;
+  order: number;
   public: boolean;
 }
 
@@ -49,6 +50,10 @@ const AliasedLinkSchema = new Schema<AliasedLinkType>({
     type: String,
     required: true,
   },
+  order: {
+    type: Number,
+    required: true,
+  },
   public: {
     type: Boolean,
     required: true,
@@ -56,3 +61,11 @@ const AliasedLinkSchema = new Schema<AliasedLinkType>({
 });
 
 export const AliasedLink = model<AliasedLinkType>("Link", AliasedLinkSchema);
+
+export function compareStrings(a: string, b: string): number {
+  if (a === b) {
+    return 0;
+  }
+
+  return a < b ? -1 : 1;
+}

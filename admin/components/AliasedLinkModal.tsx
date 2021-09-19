@@ -21,11 +21,14 @@ export default function AliasedLinkModal(props: AliasedLinkModalProps) {
   const { initialValues, form, handleSubmit, name } = props;
   const [modal, setModal] = useState(false);
 
-  const toggleModal = () => setModal((prevModal) => !prevModal);
-  const handleCancel = () => {
+  function toggleModal() {
+    setModal((prevModal) => !prevModal);
+  }
+
+  function handleCancel() {
     form.resetFields();
     toggleModal();
-  };
+  }
 
   return (
     <>

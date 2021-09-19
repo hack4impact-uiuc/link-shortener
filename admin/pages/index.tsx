@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
+import { Space, Switch } from "antd";
 import { AliasedLinkTable, NewButton } from "../components";
 import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
 
@@ -10,6 +12,7 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
   const { aliasedLinks, status } = props;
+  const [orderChangingEnabled, setOrderChangingEnabled] = useState(false);
 
   switch (status) {
     case "Authorized": {
@@ -17,10 +20,20 @@ export default function Home(props: HomeProps) {
         <>
           <div className="row-center-space-between">
             <h2>Aliased links</h2>
-            <NewButton />
+            <Space>
+              <Switch
+                checkedChildren="Order changing enabled"
+                unCheckedChildren="Order changing disabled"
+                onChange={setOrderChangingEnabled}
+              />
+              <NewButton order={aliasedLinks.length + 1} />
+            </Space>
           </div>
           <div id="table-container">
-            {aliasedLinks && <AliasedLinkTable aliasedLinks={aliasedLinks} />}
+            <AliasedLinkTable
+              aliasedLinks={aliasedLinks}
+              orderChangingEnabled={orderChangingEnabled}
+            />
           </div>
         </>
       );
@@ -40,7 +53,7 @@ export const getServerSideProps: GetServerSideProps = async function (context) {
     case process.env.ADMIN_EMAIL: {
       await mongoConnect();
 
-      const aliasedLinks = await AliasedLink.find().sort({ name: 1 }).lean();
+      const aliasedLinks = await AliasedLink.find().sort({ order: 1 }).lean();
       // @ts-ignore
       aliasedLinks.forEach((link) => (link._id = link._id.toString()));
 

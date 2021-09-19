@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { useRouter } from "next/router";
 import { Form } from "antd";
 import AliasedLinkModal from "./AliasedLinkModal";
 import { AliasedLinkType } from "utils";
+import { createAliasedLink } from "utils/api";
+import Context from "utils/context";
 
 interface NewButtonProps {
   order: number;
@@ -9,22 +12,20 @@ interface NewButtonProps {
 
 export default function NewButton(props: NewButtonProps) {
   const { order } = props;
-  const [form] = Form.useForm<AliasedLinkType>();
+  const { setError } = useContext(Context);
   const router = useRouter();
+  const [form] = Form.useForm<AliasedLinkType>();
 
   const handleSubmit = async () => {
-    await fetch("/api/links", {
-      method: "POST",
-      body: JSON.stringify({ ...form.getFieldsValue(), order }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await createAliasedLink(
+      { ...form.getFieldsValue(), order },
+      setError
+    );
 
-    form.resetFields();
-
-    router.replace(router.asPath);
+    if (res) {
+      form.resetFields();
+      router.replace(router.asPath);
+    }
   };
 
   return (

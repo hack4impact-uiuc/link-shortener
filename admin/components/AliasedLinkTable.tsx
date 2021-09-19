@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Space, Table } from "antd";
 import { DndProvider } from "react-dnd";
@@ -8,6 +8,8 @@ import DeleteButton from "./DeleteButton";
 import DraggableBodyRow from "./DraggableBodyRow";
 import EditButton from "./EditButton";
 import { AliasedLinkType, compareStrings } from "utils";
+import { updateLinkOrders } from "utils/api";
+import Context from "utils/context";
 
 const { Column } = Table;
 
@@ -20,6 +22,7 @@ export default function AliasedLinkTable(props: AliasedLinkTableProps) {
   const { aliasedLinks, orderChangingEnabled } = props;
   const [orderedLinks, setOrderedLinks] = useState(aliasedLinks);
   const [orderModified, setOrderModified] = useState(false);
+  const { setError } = useContext(Context);
   const router = useRouter();
 
   useEffect(() => {
@@ -28,27 +31,22 @@ export default function AliasedLinkTable(props: AliasedLinkTableProps) {
 
   useEffect(() => {
     if (orderModified) {
-      async function updateLinkOrders() {
+      async function handleLinkOrderUpdates() {
         const orderedIds = orderedLinks.map((aliasedLink, index) => ({
           _id: (aliasedLink as any)._id,
           order: index,
         }));
 
-        await fetch("/api/links/order", {
-          method: "PUT",
-          body: JSON.stringify(orderedIds),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-        setOrderModified(false);
+        const res = await updateLinkOrders(orderedIds, setError);
 
-        router.replace(router.asPath);
+        if (res) {
+          setOrderModified(false);
+          router.replace(router.asPath);
+        }
       }
-      updateLinkOrders();
+      handleLinkOrderUpdates();
     }
-  }, [orderedLinks, orderModified, router]);
+  }, [orderedLinks, orderModified, router, setError]);
 
   const moveRow = useCallback(
     (dragIndex, hoverIndex) => {

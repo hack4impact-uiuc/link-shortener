@@ -1,13 +1,14 @@
-import { createContext } from "react";
+import { createContext, SetStateAction } from "react";
+import { SetErrorType } from ".";
 
 interface ContextType {
   error: string | undefined;
-  setError: (error: string) => void;
+  setError: SetErrorType;
 }
 
 const context: ContextType = {
   error: undefined,
-  setError: (_: string) => {},
+  setError: (_: SetStateAction<string | undefined>) => {},
 };
 
 export default createContext(context);

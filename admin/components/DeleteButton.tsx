@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Popover, Space } from "antd";
 import { useRouter } from "next/router";
 import { AliasedLinkType } from "utils";
+import { deleteAliasedLink } from "utils/api";
+import Context from "utils/context";
 
 interface DeleteButtonProps {
   aliasedLink: AliasedLinkType;
@@ -10,6 +12,7 @@ interface DeleteButtonProps {
 export default function DeleteButton(props: DeleteButtonProps) {
   const { aliasedLink } = props;
   const [deletePopover, setDeletePopover] = useState(false);
+  const { setError } = useContext(Context);
   const router = useRouter();
 
   function toggleDeletePopover() {
@@ -18,13 +21,13 @@ export default function DeleteButton(props: DeleteButtonProps) {
 
   async function handleDelete(aliasedLink: AliasedLinkType) {
     // @ts-ignore
-    const requestUrl = `/api/links/${aliasedLink._id}`;
+    const aliasedLinkId = aliasedLink._id;
+    const res = await deleteAliasedLink(aliasedLinkId, setError);
 
-    await fetch(requestUrl, {
-      method: "DELETE",
-    });
-    router.replace(router.asPath);
-    toggleDeletePopover();
+    if (res) {
+      router.replace(router.asPath);
+      toggleDeletePopover();
+    }
   }
 
   return (

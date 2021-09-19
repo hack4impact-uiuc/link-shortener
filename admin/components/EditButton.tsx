@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { useRouter } from "next/router";
 import { Form } from "antd";
 import AliasedLinkModal from "./AliasedLinkModal";
 import { AliasedLinkType } from "utils";
+import { updateAliasedLink } from "utils/api";
+import Context from "utils/context";
 
 interface EditButtonProps {
   aliasedLink: AliasedLinkType;
@@ -9,23 +12,23 @@ interface EditButtonProps {
 
 export default function EditButton(props: EditButtonProps) {
   const { aliasedLink } = props;
-  const [form] = Form.useForm();
+  const { setError } = useContext(Context);
   const router = useRouter();
+
+  const [form] = Form.useForm<AliasedLinkType>();
 
   async function handleSubmit() {
     // @ts-ignore
-    const requestUrl = `/api/links/${aliasedLink._id}`;
+    const aliasedLinkId = aliasedLink._id;
+    const res = await updateAliasedLink(
+      aliasedLinkId,
+      form.getFieldsValue(),
+      setError
+    );
 
-    await fetch(requestUrl, {
-      method: "PUT",
-      body: JSON.stringify(form.getFieldsValue()),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-
-    router.replace(router.asPath);
+    if (res) {
+      router.replace(router.asPath);
+    }
   }
 
   return (

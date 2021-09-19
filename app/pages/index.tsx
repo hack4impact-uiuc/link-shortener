@@ -1,11 +1,10 @@
-import type { NextPage } from "next";
 import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
 
 interface HomeProps {
   aliasedLinks: AliasedLinkType[];
 }
 
-const Home: NextPage<HomeProps> = (props: HomeProps) => {
+export default function Home(props: HomeProps) {
   const { aliasedLinks } = props;
   return (
     <>
@@ -31,9 +30,7 @@ const Home: NextPage<HomeProps> = (props: HomeProps) => {
       </section>
     </>
   );
-};
-
-export default Home;
+}
 
 export const getServerSideProps = async function () {
   await mongoConnect();

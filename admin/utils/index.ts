@@ -61,3 +61,11 @@ const AliasedLinkSchema = new Schema<AliasedLinkType>({
 });
 
 export const AliasedLink = model<AliasedLinkType>("Link", AliasedLinkSchema);
+
+export function compareStrings(a: string, b: string): number {
+  if (a === b) {
+    return 0;
+  }
+
+  return a < b ? -1 : 1;
+}

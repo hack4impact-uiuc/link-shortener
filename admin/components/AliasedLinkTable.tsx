@@ -1,131 +1,146 @@
-import { useState, useCallback, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { Space, Table } from "antd";
-import DeleteButton from "./DeleteButton";
-import EditButton from "./EditButton";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
-import { AliasedLinkType } from "../utils";
+import DeleteButton from "./DeleteButton";
+import DraggableBodyRow from "./DraggableBodyRow";
+import EditButton from "./EditButton";
+import { AliasedLinkType, compareStrings } from "../utils";
 
 const { Column } = Table;
 
-function DraggableBodyRow({
-  index,
-  moveRow,
-  className,
-  style,
-  ...restProps
-}: any) {
-  const ref = useRef();
-  const [{ isOver, dropClassName }, drop] = useDrop({
-    accept: "DraggableBodyRow",
-    collect: (monitor) => {
-      const { index: dragIndex } = (monitor.getItem() as any) || {};
-      if (dragIndex === index) {
-        return {};
-      }
-      return {
-        isOver: monitor.isOver(),
-        dropClassName:
-          dragIndex < index ? " drop-over-downward" : " drop-over-upward",
-      };
-    },
-    drop: (item: any) => {
-      moveRow(item.index, index);
-    },
-  });
-  const [, drag] = useDrag({
-    type: "DraggableBodyRow",
-    item: { index },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-  drop(drag(ref));
-
-  return (
-    <tr
-      ref={ref}
-      className={`${className}${isOver ? dropClassName : ""}`}
-      style={{ cursor: "move", ...style }}
-      {...restProps}
-    />
-  );
-}
-
 interface AliasedLinkTableProps {
   aliasedLinks: AliasedLinkType[];
-}
-
-function compareStrings(a: string, b: string): number {
-  if (a === b) {
-    return 0;
-  }
-
-  return a < b ? -1 : 1;
+  orderChangingEnabled: boolean;
 }
 
 export default function AliasedLinkTable(props: AliasedLinkTableProps) {
-  const { aliasedLinks } = props;
+  const { aliasedLinks, orderChangingEnabled } = props;
+  const [orderedLinks, setOrderedLinks] = useState(aliasedLinks);
+  const [orderModified, setOrderModified] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setOrderedLinks(aliasedLinks);
+  }, [aliasedLinks]);
+
+  useEffect(() => {
+    if (orderModified) {
+      async function updateLinkOrders() {
+        const orderedIds = orderedLinks.map((aliasedLink, index) => ({
+          _id: (aliasedLink as any)._id,
+          order: index,
+        }));
+
+        await fetch("/api/links/order", {
+          method: "PUT",
+          body: JSON.stringify(orderedIds),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        setOrderModified(false);
+
+        router.replace(router.asPath);
+      }
+      updateLinkOrders();
+    }
+  }, [orderedLinks, orderModified, router]);
+
+  const moveRow = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragRow = orderedLinks[dragIndex];
+      setOrderedLinks(
+        update(orderedLinks, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, dragRow],
+          ],
+        })
+      );
+
+      setOrderModified(true);
+    },
+    [orderedLinks]
+  );
+
+  const components = {
+    body: {
+      row: DraggableBodyRow,
+    },
+  };
 
   return (
-    <Table
-      dataSource={aliasedLinks}
-      rowKey={(aliasedLink: AliasedLinkType) => aliasedLink.alias}
-      pagination={{ hideOnSinglePage: true }}
-    >
-      <Column
-        title="Name"
-        dataIndex="name"
-        key="name"
-        sorter={(a: AliasedLinkType, b: AliasedLinkType) =>
-          compareStrings(a.name, b.name)
+    <DndProvider backend={HTML5Backend}>
+      <Table
+        dataSource={orderedLinks}
+        rowKey={(aliasedLink: AliasedLinkType) => aliasedLink.alias}
+        components={orderChangingEnabled ? components : undefined}
+        pagination={{ hideOnSinglePage: true }}
+        onRow={(_, index) =>
+          ({
+            index,
+            moveRow,
+          } as any)
         }
-      />
-      <Column
-        title="Alias"
-        dataIndex="alias"
-        key="alias"
-        sorter={(a: AliasedLinkType, b: AliasedLinkType) =>
-          compareStrings(a.alias, b.alias)
-        }
-      />
-      <Column
-        title="Destination"
-        dataIndex="destination"
-        key="destination"
-        render={(destination) => (
-          <a href={destination} target="_blank" rel="noopener noreferrer">
-            {destination}
-          </a>
-        )}
-        sorter={(a: AliasedLinkType, b: AliasedLinkType) =>
-          compareStrings(a.destination, b.destination)
-        }
-      />
-      <Column
-        title="Visibility"
-        dataIndex="public"
-        key="public"
-        render={(isPublic) => (isPublic ? "Public" : "Private")}
-        filters={[
-          { text: "Public", value: true },
-          { text: "Private", value: false },
-        ]}
-        onFilter={(value, aliasedLink: AliasedLinkType) =>
-          aliasedLink.public === value
-        }
-      />
-      <Column
-        title="Actions"
-        key="actions"
-        render={(_, aliasedLink: AliasedLinkType) => (
-          <Space>
-            <EditButton aliasedLink={aliasedLink} />
-            <DeleteButton aliasedLink={aliasedLink} />
-          </Space>
-        )}
-      />
-    </Table>
+      >
+        <Column
+          title="Name"
+          dataIndex="name"
+          key="name"
+          sorter={(a: AliasedLinkType, b: AliasedLinkType) =>
+            compareStrings(a.name, b.name)
+          }
+        />
+        <Column
+          title="Alias"
+          dataIndex="alias"
+          key="alias"
+          sorter={(a: AliasedLinkType, b: AliasedLinkType) =>
+            compareStrings(a.alias, b.alias)
+          }
+        />
+        <Column
+          title="Destination"
+          dataIndex="destination"
+          key="destination"
+          render={(destination) => (
+            <a href={destination} target="_blank" rel="noopener noreferrer">
+              {destination}
+            </a>
+          )}
+          sorter={(a: AliasedLinkType, b: AliasedLinkType) =>
+            compareStrings(a.destination, b.destination)
+          }
+        />
+        <Column
+          title="Visibility"
+          dataIndex="public"
+          key="visibility"
+          render={(isPublic) => (isPublic ? "Public" : "Private")}
+          filters={[
+            { text: "Public", value: true },
+            { text: "Private", value: false },
+          ]}
+          onFilter={
+            ((value: boolean, aliasedLink: AliasedLinkType) =>
+              aliasedLink.public === value) as any
+          }
+        />
+        <Column
+          title="Actions"
+          key="actions"
+          render={(_, aliasedLink: AliasedLinkType) => (
+            <Space>
+              <EditButton aliasedLink={aliasedLink} />
+              <DeleteButton aliasedLink={aliasedLink} />
+            </Space>
+          )}
+        />
+      </Table>
+    </DndProvider>
   );
 }

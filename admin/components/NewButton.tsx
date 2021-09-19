@@ -1,10 +1,19 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Form } from "antd";
 import AliasedLinkModal from "./AliasedLinkModal";
+import { AliasedLinkType } from "../utils";
 
-export default function NewButton() {
-  const [form] = Form.useForm();
+interface NewButtonProps {
+  order: number;
+}
+
+export default function NewButton(props: NewButtonProps) {
+  const { order } = props;
+  const [form] = Form.useForm<AliasedLinkType>();
   const router = useRouter();
+
+  useEffect(() => form.setFieldsValue({ order }), [order, form]);
 
   const handleSubmit = async () => {
     await fetch("/api/links", {
@@ -26,6 +35,7 @@ export default function NewButton() {
       form={form}
       handleSubmit={handleSubmit}
       name="Add aliased link"
+      initialValues={{ public: false }}
     />
   );
 }

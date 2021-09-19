@@ -11,7 +11,7 @@ import {
 import { AliasedLinkType } from "../utils";
 
 interface AliasedLinkModalProps {
-  initialValues?: AliasedLinkType;
+  initialValues?: Partial<AliasedLinkType>;
   form: FormInstance;
   handleSubmit: () => Promise<void>;
   name: string;
@@ -21,11 +21,14 @@ export default function AliasedLinkModal(props: AliasedLinkModalProps) {
   const { initialValues, form, handleSubmit, name } = props;
   const [modal, setModal] = useState(false);
 
-  const toggleModal = () => setModal((prevModal) => !prevModal);
-  const handleCancel = () => {
+  function toggleModal() {
+    setModal((prevModal) => !prevModal);
+  }
+
+  function handleCancel() {
     form.resetFields();
     toggleModal();
-  };
+  }
 
   return (
     <>

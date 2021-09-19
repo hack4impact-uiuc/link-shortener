@@ -13,12 +13,10 @@ export default function NewButton(props: NewButtonProps) {
   const [form] = Form.useForm<AliasedLinkType>();
   const router = useRouter();
 
-  useEffect(() => form.setFieldsValue({ order }), [order, form]);
-
   const handleSubmit = async () => {
     await fetch("/api/links", {
       method: "POST",
-      body: JSON.stringify(form.getFieldsValue()),
+      body: JSON.stringify({ ...form.getFieldsValue(), order }),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

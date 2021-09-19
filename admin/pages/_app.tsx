@@ -1,14 +1,31 @@
+import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
-import { Layout } from "antd";
+import { Layout, notification } from "antd";
 import { Navbar } from "../components";
+import Context from "utils/context";
 import "antd/dist/antd.css";
 import "../styles/globals.css";
 
 const { Content } = Layout;
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (error !== undefined) {
+      notification.error({
+        message: "Error",
+        description: error,
+        key: "error",
+        duration: 0,
+      });
+    } else {
+      notification.close("error");
+    }
+  }, [error]);
+
   return (
     <>
       <Head>
@@ -27,10 +44,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
       </Head>
       <SessionProvider session={pageProps.session}>
-        <Navbar />
-        <Content>
-          <Component {...pageProps} />
-        </Content>
+        <Context.Provider value={{ error, setError }}>
+          <Navbar />
+          <Content>
+            <Component {...pageProps} />
+          </Content>
+        </Context.Provider>
       </SessionProvider>
     </>
   );

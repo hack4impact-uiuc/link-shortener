@@ -1,34 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
-import { AliasedLink, mongoConnect } from "../../../utils";
+import { AliasedLink } from "../../../utils";
+import { authWrap } from "./_utils";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getSession({ req });
-  switch (session?.user?.email) {
-    case process.env.ADMIN_EMAIL: {
-      await mongoConnect();
+  await authWrap(req, res, async (req, res) => {
+    // @ts-ignore
+    const methodHandler = methodHandlers[req.method];
 
-      // @ts-ignore
-      const methodHandler = methodHandlers[req.method];
-
-      if (methodHandler) {
-        await methodHandler(req, res);
-      } else {
-        res.status(405);
-      }
+    if (methodHandler) {
+      await methodHandler(req, res);
+    } else {
+      res.status(405);
     }
-
-    case undefined: {
-      res.status(401);
-    }
-
-    default: {
-      res.status(403);
-    }
-  }
+  });
 }
 
 const methodHandlers = {

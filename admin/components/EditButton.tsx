@@ -12,7 +12,7 @@ export default function EditButton(props: EditButtonProps) {
   const [form] = Form.useForm();
   const router = useRouter();
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     // @ts-ignore
     const requestUrl = `/api/links/${aliasedLink._id}`;
 
@@ -26,7 +26,7 @@ export default function EditButton(props: EditButtonProps) {
     });
 
     router.replace(router.asPath);
-  };
+  }
 
   return (
     <AliasedLinkModal

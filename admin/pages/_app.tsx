@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 import { Layout, notification } from "antd";
-import { Navbar } from "../components";
+import { Navbar } from "components";
 import Context from "utils/context";
 import "antd/dist/antd.css";
 import "../styles/globals.css";

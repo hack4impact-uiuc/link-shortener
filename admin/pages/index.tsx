@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { Space, Switch } from "antd";
-import { AliasedLinkTable, NewButton } from "../components";
+import { AliasedLinkTable, NewButton } from "components";
 import { AliasedLinkType } from "utils";
 import Context from "utils/context";
 import { AliasedLink, mongoConnect } from "utils/mongo";
@@ -15,7 +15,6 @@ interface HomeProps {
 export default function Home(props: HomeProps) {
   const { aliasedLinks, status } = props;
   const [orderChangingEnabled, setOrderChangingEnabled] = useState(false);
-  const { setError } = useContext(Context);
 
   switch (status) {
     case "Authorized": {

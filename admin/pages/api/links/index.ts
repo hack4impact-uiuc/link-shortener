@@ -13,10 +13,14 @@ export default async function handler(
       await mongoConnect();
 
       if (req.method === "POST") {
-        const aliasedLink = await AliasedLink.create(req.body);
-        if (aliasedLink) {
-          res.status(201).json(aliasedLink);
-        } else {
+        try {
+          const aliasedLink = await AliasedLink.create(req.body);
+          if (aliasedLink) {
+            res.status(201).json(aliasedLink);
+          } else {
+            res.status(400);
+          }
+        } catch {
           res.status(400);
         }
       } else {

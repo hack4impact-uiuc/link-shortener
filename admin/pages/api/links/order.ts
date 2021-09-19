@@ -14,13 +14,17 @@ export default async function handler(
       if (req.method === "PUT") {
         const orderedIds: Array<{ _id: string; order: number }> = req.body;
 
-        const orderedLinks = await Promise.all(
-          orderedIds.map(({ _id, order }) =>
-            AliasedLink.findByIdAndUpdate(_id, { order }, { new: true })
-          )
-        );
+        try {
+          const orderedLinks = await Promise.all(
+            orderedIds.map(({ _id, order }) =>
+              AliasedLink.findByIdAndUpdate(_id, { order }, { new: true })
+            )
+          );
 
-        res.status(200).json(orderedLinks);
+          res.status(200).json(orderedLinks);
+        } catch {
+          res.status(400);
+        }
       } else {
         res.status(405);
       }

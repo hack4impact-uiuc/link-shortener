@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { mongoConnect } from "../../../utils";
+import { mongoConnect } from "utils/mongo";
 
 export async function authWrap(
   req: NextApiRequest,

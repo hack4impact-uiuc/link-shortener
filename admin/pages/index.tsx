@@ -3,7 +3,8 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { Space, Switch } from "antd";
 import { AliasedLinkTable, NewButton } from "../components";
-import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
+import { AliasedLinkType } from "utils";
+import { AliasedLink, mongoConnect } from "utils/mongo";
 
 interface HomeProps {
   aliasedLinks: AliasedLinkType[];

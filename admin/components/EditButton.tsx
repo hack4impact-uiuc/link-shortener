@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Form } from "antd";
 import AliasedLinkModal from "./AliasedLinkModal";
-import { AliasedLinkType } from "../utils";
+import { AliasedLinkType } from "utils";
 
 interface EditButtonProps {
   aliasedLink: AliasedLinkType;

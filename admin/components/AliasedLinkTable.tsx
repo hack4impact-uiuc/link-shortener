@@ -7,7 +7,7 @@ import update from "immutability-helper";
 import DeleteButton from "./DeleteButton";
 import DraggableBodyRow from "./DraggableBodyRow";
 import EditButton from "./EditButton";
-import { AliasedLinkType, compareStrings } from "../utils";
+import { AliasedLinkType, compareStrings } from "utils";
 
 const { Column } = Table;
 

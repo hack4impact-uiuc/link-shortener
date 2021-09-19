@@ -8,7 +8,7 @@ import {
   Modal,
   Tooltip,
 } from "antd";
-import { AliasedLinkType } from "../utils";
+import { AliasedLinkType } from "utils";
 
 interface AliasedLinkModalProps {
   initialValues?: Partial<AliasedLinkType>;

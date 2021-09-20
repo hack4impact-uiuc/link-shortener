@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { GetServerSideProps } from "next";
-import { AliasedLinkCard } from "../components";
-import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
+import { AliasedLinkCard } from "components";
+import { AliasedLink, mongoConnect, AliasedLinkType } from "utils";
 
 interface HomeProps {
   aliasedLinks: AliasedLinkType[];

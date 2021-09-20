@@ -5,5 +5,13 @@
     "plugin:@hack4impact-uiuc/react",
     "plugin:@hack4impact-uiuc/typescript",
     "next/core-web-vitals"
-  ]
+  ],
+  "rules": {
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": ["^utils", "^components"]
+      }
+    ]
+  }
 }

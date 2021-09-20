@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { AliasedLinkType } from "../utils";
+import { AliasedLinkType } from "utils";
 
 interface AliasedLinkCardProps {
   aliasedLink: AliasedLinkType;

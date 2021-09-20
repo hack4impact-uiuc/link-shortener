@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { AliasedLink, mongoConnect } from "../utils";
+import { AliasedLink, mongoConnect } from "utils";
 
 export default function Alias(): null {
   return null;

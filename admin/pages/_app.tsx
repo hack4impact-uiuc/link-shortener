@@ -14,6 +14,9 @@ function MyApp(props: AppProps): ReactElement {
   const { Component, pageProps } = props;
   const [error, setError] = useState<string | undefined>(undefined);
 
+  /**
+   * Display a notification with the current error message, or clear the notification if no error.
+   */
   useEffect(() => {
     if (error !== undefined) {
       notification.error({

@@ -17,6 +17,9 @@ interface AliasedLinkModalProps {
   name: string;
 }
 
+/**
+ * A modular modal for filling in AliasedLink fields.
+ */
 export default function AliasedLinkModal(
   props: AliasedLinkModalProps
 ): ReactElement {

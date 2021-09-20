@@ -8,6 +8,9 @@ export interface AliasedLinkType {
   public: boolean;
 }
 
+/**
+ * A simple helper to lexicographically sort strings.
+ */
 export function compareStrings(a: string, b: string): number {
   if (a === b) {
     return 0;

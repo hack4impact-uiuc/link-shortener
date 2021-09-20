@@ -1,14 +1,22 @@
-// @ts-ignore
-let cached = global.mongoose as any;
+/**
+ * Helpers related to MongoDB
+ */
 
 import mongoose, { Schema, model, ConnectOptions } from "mongoose";
 import { AliasedLinkType } from ".";
+
+// @ts-ignore
+let cached = global.mongoose as any;
 
 if (!cached) {
   // @ts-ignore
   cached = global.mongoose = { conn: null, promise: null };
 }
 
+/**
+ * Initializes a Mongoose connection if it has not done so yet.
+ * Caches the connected instance to speed up subsequent calls.
+ */
 export async function mongoConnect(): Promise<any> {
   if (cached.conn) {
     return cached.conn;

@@ -21,6 +21,8 @@ export default async function handler(
       } catch {
         res.status(400);
       }
+    } else {
+      res.status(405);
     }
   });
 }

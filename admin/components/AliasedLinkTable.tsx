@@ -37,6 +37,7 @@ export default function AliasedLinkTable(
     setOrderedLinks(aliasedLinks);
   }, [aliasedLinks]);
 
+  // Send a request to change link ordering if the order is modified on the client.
   useEffect(() => {
     async function handleLinkOrderUpdates(): Promise<void> {
       const orderedIds = orderedLinks.map((aliasedLink, index) => ({

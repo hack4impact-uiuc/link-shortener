@@ -2,6 +2,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { mongoConnect } from "utils/mongo";
 
+/**
+ * A wrapper for the standard authentication workflow.
+ * If the user is the admin user, proceeds with the provided callback.
+ * If the user is authenticated but not the admin user, returns a 403 Forbidden code.
+ * If the user is not authenticated, returns a 401 Unauthorized code.
+ */
 export async function authWrap(
   req: NextApiRequest,
   res: NextApiResponse,

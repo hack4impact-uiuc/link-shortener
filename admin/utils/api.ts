@@ -1,5 +1,8 @@
 import { AliasedLinkType, OrderedIdsType, SetErrorType } from ".";
 
+/**
+ * A map from server-generated error codes to custom error messages.
+ */
 const STATUS_MAP: Record<number, string> = {
   400: "Bad request body - please provide all required fields.",
   401: "You must be signed in to access this resource.",
@@ -9,6 +12,9 @@ const STATUS_MAP: Record<number, string> = {
   500: "Server error - please file an issue.",
 };
 
+/**
+ * Wraps a fetch call to the API, hooking in to setError if needed.
+ */
 export async function wrapResponse<T>(
   response: Response,
   setError: SetErrorType

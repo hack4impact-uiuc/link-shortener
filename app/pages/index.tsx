@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { GetServerSideProps } from "next";
+import { AliasedLinkCard } from "../components";
 import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
 
 interface HomeProps {
@@ -16,17 +17,11 @@ export default function Home(props: HomeProps): ReactElement {
       </section>
       <section id="contents" className="row-center">
         <ul id="redirects">
-          {aliasedLinks.map((link) => (
-            <li key={link.alias}>
-              <a
-                href={link.destination}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {link.name}
-                <i className="link-icon" />
-              </a>
-            </li>
+          {aliasedLinks.map((aliasedLink) => (
+            <AliasedLinkCard
+              key={aliasedLink.alias}
+              aliasedLink={aliasedLink}
+            />
           ))}
         </ul>
       </section>

@@ -16,7 +16,7 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
-export async function mongoConnect() {
+export async function mongoConnect(): Promise<any> {
   if (cached.conn) {
     return cached.conn;
   }
@@ -27,11 +27,7 @@ export async function mongoConnect() {
       useUnifiedTopology: true,
     } as ConnectOptions;
 
-    cached.promise = mongoose
-      .connect(process.env.MONGO_URI!, opts)
-      .then((mongoose) => {
-        return mongoose;
-      });
+    cached.promise = mongoose.connect(process.env.MONGO_URI!, opts);
     cached.conn = await cached.promise;
     return cached.conn;
   }

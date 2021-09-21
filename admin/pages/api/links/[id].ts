@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { AliasedLink } from "utils/mongo";
 import { authWrap } from "utils/auth";
+import { AliasedLink } from "utils/mongo";
 
 export default async function handler(
   req: NextApiRequest,

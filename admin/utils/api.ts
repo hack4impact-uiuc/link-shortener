@@ -9,6 +9,7 @@ const STATUS_MAP: Record<number, string> = {
   403: "You do not have the sufficient permission to access this resource.",
   404: "This resource does not exist.",
   405: "The request method is not permitted on this resource.",
+  409: "Cannot create link with a duplicate alias.",
   500: "Server error - please file an issue.",
 };
 

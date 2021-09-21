@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { AliasedLink } from "utils/mongo";
+import { AliasedLinkType } from "utils";
 import { authWrap } from "utils/auth";
+import { AliasedLink } from "utils/mongo";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,7 +10,16 @@ export default async function handler(
   await authWrap(req, res, async (req, res) => {
     if (req.method === "GET") {
       try {
-        const aliasedLink = await AliasedLink.create(req.body);
+        const { body }: { body: AliasedLinkType } = req.body;
+        const { alias } = body;
+
+        const aliasExists = await AliasedLink.exists({ alias });
+        if (aliasExists) {
+          res.status(409);
+          return;
+        }
+
+        const aliasedLink = await AliasedLink.create(body);
         if (aliasedLink) {
           res.status(201).json(aliasedLink);
         } else {

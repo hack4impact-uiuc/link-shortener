@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 export interface AliasedLinkType {
   alias: string;
   destination: string;
+  hits?: number;
   name: string;
   order: number;
   public: boolean;

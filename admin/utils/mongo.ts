@@ -43,6 +43,10 @@ const AliasedLinkSchema = new Schema<AliasedLinkType>({
     type: String,
     required: true,
   },
+  hits: {
+    type: Number,
+    required: false,
+  },
   name: {
     type: String,
     required: true,

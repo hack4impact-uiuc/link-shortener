@@ -18,7 +18,10 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   const { alias } = params;
 
-  const aliasedLink = await AliasedLink.findOne({ alias });
+  const aliasedLink = await AliasedLink.findOneAndUpdate(
+    { alias },
+    { $inc: { hits: 1 } }
+  );
 
   if (aliasedLink) {
     const { destination } = aliasedLink;

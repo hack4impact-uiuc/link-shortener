@@ -3,6 +3,7 @@ import mongoose, { Schema, model, ConnectOptions } from "mongoose";
 export interface AliasedLinkType {
   alias: string;
   destination: string;
+  hits?: number;
   name: string;
   order: number;
   public: boolean;
@@ -41,6 +42,10 @@ const AliasedLinkSchema = new Schema<AliasedLinkType>({
   destination: {
     type: String,
     required: true,
+  },
+  hits: {
+    type: Number,
+    required: false,
   },
   name: {
     type: String,

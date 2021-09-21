@@ -40,7 +40,6 @@ function MyApp(props: AppProps): ReactElement {
           name="description"
           content="Hack4Impact UIUC's link shortener admin portal."
         />
-
         <title>Link Shortener Admin | Hack4Impact UIUC</title>
         <link
           rel="manifest"
@@ -53,7 +52,7 @@ function MyApp(props: AppProps): ReactElement {
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
       </Head>
       <SessionProvider session={pageProps.session}>
-        <Context.Provider value={{ error, setError }}>
+        <Context.Provider value={{ setError }}>
           <Navbar />
           <Content>
             <Component {...pageProps} />

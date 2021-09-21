@@ -12,6 +12,7 @@ function MyApp(props: AppProps): ReactElement {
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <meta name="theme-color" content="#155DA1" />
         <title>Link Shortener | Hack4Impact UIUC</title>
+        <meta name="description" content="Hack4Impact UIUC's link shortener." />
         <link
           rel="manifest"
           href="manifest.json"

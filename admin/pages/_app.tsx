@@ -36,6 +36,11 @@ function MyApp(props: AppProps): ReactElement {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <meta name="theme-color" content="#155DA1" />
+        <meta
+          name="description"
+          content="Hack4Impact UIUC's link shortener admin portal."
+        />
+
         <title>Link Shortener Admin | Hack4Impact UIUC</title>
         <link
           rel="manifest"

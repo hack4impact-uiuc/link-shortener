@@ -142,10 +142,7 @@ export default function AliasedLinkTable(
           title="Hits"
           dataIndex="hits"
           key="hits"
-          render={(hits) => hits ?? 0}
-          sorter={(a: AliasedLinkType, b: AliasedLinkType) =>
-            (a.hits ?? 0) - (b.hits ?? 0)
-          }
+          sorter={(a: AliasedLinkType, b: AliasedLinkType) => a.hits - b.hits}
         />
         <Column
           title="Actions"

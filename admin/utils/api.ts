@@ -1,17 +1,44 @@
-import { AliasedLinkType, OrderedIdsType, SetErrorType } from ".";
+import { NextApiRequest, NextApiResponse } from "next";
+import { AliasedLinkType, OrderedIdsType, SetErrorType } from "utils";
 
 /**
  * A map from server-generated error codes to custom error messages.
  */
-const STATUS_MAP: Record<number, string> = {
-  400: "Bad request body - please provide all required fields.",
+const STATUS_MAP = {
+  400: "Bad request body - please ensure you have provided all required fields.",
   401: "You must be signed in to access this resource.",
   403: "You do not have the sufficient permission to access this resource.",
-  404: "This resource does not exist.",
+  404: "The link with this id does not exist.",
   405: "The request method is not permitted on this resource.",
   409: "Cannot create link with a duplicate alias.",
   500: "Server error - please file an issue.",
 };
+
+type Status = keyof typeof STATUS_MAP;
+
+/**
+ * Wraps an API handler, attempting to forward an error if caught.
+ */
+export async function tryCatchWrap(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  callback: (req: NextApiRequest, res: NextApiResponse) => Promise<void>
+): Promise<void> {
+  try {
+    await callback(req, res);
+  } catch (error) {
+    const message = (error as any).message ?? STATUS_MAP[400];
+
+    res.status(400).json({ message });
+  }
+}
+
+/**
+ * Sets the response's status code as specified, and sends the respective message from STATUS_MAP.
+ */
+export function handleErrorCode(res: NextApiResponse, code: Status): void {
+  res.status(code).json({ message: STATUS_MAP[code] });
+}
 
 /**
  * Wraps a fetch call to the API, hooking in to setError if needed.
@@ -25,12 +52,26 @@ export async function wrapResponse<T>(
   }
 
   const { status } = response;
-  const error =
-    STATUS_MAP[status] ??
-    `Unexpected error code ${status} - please file an issue with this status code.`;
+  const body = await response.json();
+
+  const error = getError(body, status);
 
   setError(error);
   return undefined;
+}
+
+/**
+ * Fetches an error message from the response body, or generates one from the status code if possible.
+ */
+function getError(body: any, status: number): string {
+  const { message } = body;
+  if (message !== undefined) {
+    return message;
+  }
+
+  return status in STATUS_MAP
+    ? STATUS_MAP[status as Status]
+    : `Unexpected error code ${status} - please file an issue with this status code.`;
 }
 
 export async function createAliasedLink(

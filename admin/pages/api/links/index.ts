@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { AliasedLinkType } from "utils";
+import { handleErrorCode, tryCatchWrap } from "utils/api";
 import { authWrap } from "utils/auth";
 import { AliasedLink } from "utils/mongo";
 
@@ -8,14 +9,14 @@ export default async function handler(
   res: NextApiResponse
 ): Promise<void> {
   await authWrap(req, res, async (req, res) => {
-    if (req.method === "GET") {
-      try {
-        const { body }: { body: AliasedLinkType } = req.body;
+    if (req.method === "POST") {
+      await tryCatchWrap(req, res, async (req, res) => {
+        const { body }: { body: AliasedLinkType } = req;
         const { alias } = body;
 
         const aliasExists = await AliasedLink.exists({ alias });
         if (aliasExists) {
-          res.status(409);
+          handleErrorCode(res, 409);
           return;
         }
 
@@ -23,13 +24,11 @@ export default async function handler(
         if (aliasedLink) {
           res.status(201).json(aliasedLink);
         } else {
-          res.status(400);
+          handleErrorCode(res, 400);
         }
-      } catch {
-        res.status(400);
-      }
+      });
     } else {
-      res.status(405);
+      handleErrorCode(res, 405);
     }
   });
 }

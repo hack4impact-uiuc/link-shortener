@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
+import { handleErrorCode } from "utils/api";
 import { mongoConnect } from "utils/mongo";
 
 /**
@@ -22,12 +23,12 @@ export async function authWrap(
     }
 
     case undefined: {
-      res.status(401);
+      handleErrorCode(res, 401);
       break;
     }
 
     default: {
-      res.status(403);
+      handleErrorCode(res, 403);
     }
   }
 }

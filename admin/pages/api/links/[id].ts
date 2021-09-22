@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { handleErrorCode, tryCatchWrap } from "utils/api";
 import { authWrap } from "utils/auth";
 import { AliasedLink } from "utils/mongo";
 
@@ -13,7 +14,7 @@ export default async function handler(
     if (methodHandler) {
       await methodHandler(req, res);
     } else {
-      res.status(405);
+      handleErrorCode(res, 405);
     }
   });
 }
@@ -33,7 +34,7 @@ async function getAliasedLink(
   if (aliasedLink) {
     res.status(200).json(aliasedLink);
   } else {
-    res.status(404);
+    handleErrorCode(res, 404);
   }
 }
 
@@ -41,7 +42,7 @@ async function putAliasedLink(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  try {
+  await tryCatchWrap(req, res, async (req, res) => {
     const aliasedLink = await AliasedLink.findByIdAndUpdate(
       req.query.id,
       req.body,
@@ -51,26 +52,22 @@ async function putAliasedLink(
     if (aliasedLink) {
       res.status(200).json(aliasedLink);
     } else {
-      res.status(404);
+      handleErrorCode(res, 404);
     }
-  } catch {
-    res.status(400);
-  }
+  });
 }
 
 async function deleteAliasedLink(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  try {
+  await tryCatchWrap(req, res, async (req, res) => {
     const aliasedLink = await AliasedLink.findByIdAndDelete(req.query.id);
 
     if (aliasedLink) {
       res.status(200).json(aliasedLink);
     } else {
-      res.status(404);
+      handleErrorCode(res, 404);
     }
-  } catch {
-    res.status(400);
-  }
+  });
 }

@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import type { AppProps } from "next/app";
+import { AppProps } from "next/app";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 import { Layout, notification } from "antd";
@@ -10,7 +10,7 @@ import "../styles/globals.css";
 
 const { Content } = Layout;
 
-function MyApp(props: AppProps): ReactElement {
+function App(props: AppProps): ReactElement {
   const { Component, pageProps } = props;
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -62,4 +62,5 @@ function MyApp(props: AppProps): ReactElement {
     </>
   );
 }
-export default MyApp;
+
+export default App;

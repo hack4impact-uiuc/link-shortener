@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { handleErrorCode, tryCatchWrap } from "utils/api";
 import { authWrap } from "utils/auth";
 import { AliasedLink } from "utils/mongo";

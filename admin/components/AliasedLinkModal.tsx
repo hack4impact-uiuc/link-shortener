@@ -13,7 +13,7 @@ import { AliasedLinkType } from "utils";
 interface AliasedLinkModalProps {
   initialValues?: Partial<AliasedLinkType>;
   form: FormInstance;
-  handleSubmit: () => Promise<void>;
+  handleSubmit: () => Promise<boolean>;
   name: string;
 }
 
@@ -31,8 +31,11 @@ export default function AliasedLinkModal(
   }
 
   async function onOk(): Promise<void> {
-    await handleSubmit();
-    toggleModal();
+    const submitSuccess = await handleSubmit();
+
+    if (submitSuccess) {
+      toggleModal();
+    }
   }
 
   function handleCancel(): void {

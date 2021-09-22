@@ -17,7 +17,7 @@ export default function EditButton(props: EditButtonProps): ReactElement {
 
   const [form] = Form.useForm<AliasedLinkType>();
 
-  async function handleSubmit(): Promise<void> {
+  async function handleSubmit(): Promise<boolean> {
     // @ts-ignore
     const aliasedLinkId = aliasedLink._id;
     const res = await updateAliasedLink(
@@ -28,7 +28,10 @@ export default function EditButton(props: EditButtonProps): ReactElement {
 
     if (res) {
       router.replace(router.asPath);
+      return true;
     }
+
+    return false;
   }
 
   return (

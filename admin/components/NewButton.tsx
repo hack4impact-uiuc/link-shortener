@@ -16,7 +16,7 @@ export default function NewButton(props: NewButtonProps): ReactElement {
   const router = useRouter();
   const [form] = Form.useForm<AliasedLinkType>();
 
-  async function handleSubmit(): Promise<void> {
+  async function handleSubmit(): Promise<boolean> {
     const res = await createAliasedLink(
       { ...form.getFieldsValue(), order },
       setError
@@ -25,7 +25,10 @@ export default function NewButton(props: NewButtonProps): ReactElement {
     if (res) {
       form.resetFields();
       router.replace(router.asPath);
+      return true;
     }
+
+    return false;
   }
 
   return (

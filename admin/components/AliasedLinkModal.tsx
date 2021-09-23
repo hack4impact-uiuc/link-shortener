@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -8,24 +8,37 @@ import {
   Modal,
   Tooltip,
 } from "antd";
-import { AliasedLinkType } from "../utils";
+import { AliasedLinkType } from "utils";
 
 interface AliasedLinkModalProps {
   initialValues?: Partial<AliasedLinkType>;
   form: FormInstance;
-  handleSubmit: () => Promise<void>;
+  handleSubmit: () => Promise<boolean>;
   name: string;
 }
 
-export default function AliasedLinkModal(props: AliasedLinkModalProps) {
+/**
+ * A modular modal for filling in AliasedLink fields.
+ */
+export default function AliasedLinkModal(
+  props: AliasedLinkModalProps
+): ReactElement {
   const { initialValues, form, handleSubmit, name } = props;
   const [modal, setModal] = useState(false);
 
-  function toggleModal() {
+  function toggleModal(): void {
     setModal((prevModal) => !prevModal);
   }
 
-  function handleCancel() {
+  async function onOk(): Promise<void> {
+    const submitSuccess = await handleSubmit();
+
+    if (submitSuccess) {
+      toggleModal();
+    }
+  }
+
+  function handleCancel(): void {
     form.resetFields();
     toggleModal();
   }
@@ -37,7 +50,7 @@ export default function AliasedLinkModal(props: AliasedLinkModalProps) {
       </Button>
       <Modal
         visible={modal}
-        onOk={() => handleSubmit().then(() => toggleModal())}
+        onOk={onOk}
         onCancel={handleCancel}
         closable={false}
         okText="Save"

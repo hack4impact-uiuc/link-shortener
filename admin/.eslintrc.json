@@ -1,3 +1,19 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["@hack4impact-uiuc"],
+  "extends": [
+    "plugin:@hack4impact-uiuc/base",
+    "plugin:@hack4impact-uiuc/react",
+    "plugin:@hack4impact-uiuc/typescript",
+    "next/core-web-vitals"
+  ],
+  "rules": {
+    "require-await": "off",
+    "@typescript-eslint/no-magic-numbers": "off",
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": ["^utils", "^components"]
+      }
+    ]
+  }
 }

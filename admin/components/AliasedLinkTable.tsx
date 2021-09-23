@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
 import { Space, Table } from "antd";
 import { DndProvider } from "react-dnd";
@@ -7,7 +13,9 @@ import update from "immutability-helper";
 import DeleteButton from "./DeleteButton";
 import DraggableBodyRow from "./DraggableBodyRow";
 import EditButton from "./EditButton";
-import { AliasedLinkType, compareStrings } from "../utils";
+import { AliasedLinkType, compareStrings } from "utils";
+import { updateLinkOrders } from "utils/api";
+import Context from "utils/context";
 
 const { Column } = Table;
 
@@ -16,39 +24,39 @@ interface AliasedLinkTableProps {
   orderChangingEnabled: boolean;
 }
 
-export default function AliasedLinkTable(props: AliasedLinkTableProps) {
+export default function AliasedLinkTable(
+  props: AliasedLinkTableProps
+): ReactElement {
   const { aliasedLinks, orderChangingEnabled } = props;
   const [orderedLinks, setOrderedLinks] = useState(aliasedLinks);
   const [orderModified, setOrderModified] = useState(false);
+  const { setError } = useContext(Context);
   const router = useRouter();
 
   useEffect(() => {
     setOrderedLinks(aliasedLinks);
   }, [aliasedLinks]);
 
+  // Send a request to change link ordering if the order is modified on the client.
   useEffect(() => {
-    if (orderModified) {
-      async function updateLinkOrders() {
-        const orderedIds = orderedLinks.map((aliasedLink, index) => ({
-          _id: (aliasedLink as any)._id,
-          order: index,
-        }));
+    async function handleLinkOrderUpdates(): Promise<void> {
+      const orderedIds = orderedLinks.map((aliasedLink, index) => ({
+        _id: (aliasedLink as any)._id,
+        order: index,
+      }));
 
-        await fetch("/api/links/order", {
-          method: "PUT",
-          body: JSON.stringify(orderedIds),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
+      const res = await updateLinkOrders(orderedIds, setError);
+
+      if (res) {
         setOrderModified(false);
-
         router.replace(router.asPath);
       }
-      updateLinkOrders();
     }
-  }, [orderedLinks, orderModified, router]);
+
+    if (orderModified) {
+      handleLinkOrderUpdates();
+    }
+  }, [orderedLinks, orderModified, router, setError]);
 
   const moveRow = useCallback(
     (dragIndex, hoverIndex) => {
@@ -79,7 +87,7 @@ export default function AliasedLinkTable(props: AliasedLinkTableProps) {
         dataSource={orderedLinks}
         rowKey={(aliasedLink: AliasedLinkType) => aliasedLink.alias}
         components={orderChangingEnabled ? components : undefined}
-        pagination={{ hideOnSinglePage: true }}
+        pagination={{ hideOnSinglePage: true, defaultPageSize: 20 }}
         onRow={(_, index) =>
           ({
             index,
@@ -129,6 +137,12 @@ export default function AliasedLinkTable(props: AliasedLinkTableProps) {
             ((value: boolean, aliasedLink: AliasedLinkType) =>
               aliasedLink.public === value) as any
           }
+        />
+        <Column
+          title="Hits"
+          dataIndex="hits"
+          key="hits"
+          sorter={(a: AliasedLinkType, b: AliasedLinkType) => a.hits - b.hits}
         />
         <Column
           title="Actions"

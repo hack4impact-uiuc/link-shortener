@@ -1,19 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
-import { AliasedLink, mongoConnect } from "../../../utils";
+import { NextApiRequest, NextApiResponse } from "next";
+import { handleErrorCode, tryCatchWrap } from "utils/api";
+import { authWrap } from "utils/auth";
+import { AliasedLink } from "utils/mongo";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
-) {
-  const session = await getSession({ req });
-  switch (session?.user?.email) {
-    case process.env.ADMIN_EMAIL: {
-      await mongoConnect();
+): Promise<void> {
+  await authWrap(req, res, async (req, res) => {
+    if (req.method === "PUT") {
+      const orderedIds: Array<{ _id: string; order: number }> = req.body;
 
-      if (req.method === "PUT") {
-        const orderedIds: Array<{ _id: string; order: number }> = req.body;
-
+      await tryCatchWrap(req, res, async (req, res) => {
         const orderedLinks = await Promise.all(
           orderedIds.map(({ _id, order }) =>
             AliasedLink.findByIdAndUpdate(_id, { order }, { new: true })
@@ -21,17 +19,9 @@ export default async function handler(
         );
 
         res.status(200).json(orderedLinks);
-      } else {
-        res.status(405);
-      }
+      });
+    } else {
+      handleErrorCode(res, 405);
     }
-
-    case undefined: {
-      res.status(401);
-    }
-
-    default: {
-      res.status(403);
-    }
-  }
+  });
 }

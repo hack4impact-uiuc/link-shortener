@@ -1,32 +1,35 @@
-import { useEffect } from "react";
+import { ReactElement, useContext } from "react";
 import { useRouter } from "next/router";
 import { Form } from "antd";
 import AliasedLinkModal from "./AliasedLinkModal";
-import { AliasedLinkType } from "../utils";
+import { AliasedLinkType } from "utils";
+import { createAliasedLink } from "utils/api";
+import Context from "utils/context";
 
 interface NewButtonProps {
   order: number;
 }
 
-export default function NewButton(props: NewButtonProps) {
+export default function NewButton(props: NewButtonProps): ReactElement {
   const { order } = props;
-  const [form] = Form.useForm<AliasedLinkType>();
+  const { setError } = useContext(Context);
   const router = useRouter();
+  const [form] = Form.useForm<AliasedLinkType>();
 
-  const handleSubmit = async () => {
-    await fetch("/api/links", {
-      method: "POST",
-      body: JSON.stringify({ ...form.getFieldsValue(), order }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
+  async function handleSubmit(): Promise<boolean> {
+    const res = await createAliasedLink(
+      { ...form.getFieldsValue(), order },
+      setError
+    );
 
-    form.resetFields();
+    if (res) {
+      form.resetFields();
+      router.replace(router.asPath);
+      return true;
+    }
 
-    router.replace(router.asPath);
-  };
+    return false;
+  }
 
   return (
     <AliasedLinkModal

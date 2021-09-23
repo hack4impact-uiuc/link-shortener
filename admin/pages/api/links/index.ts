@@ -1,35 +1,34 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
-import { AliasedLink, mongoConnect } from "../../../utils";
+import { NextApiRequest, NextApiResponse } from "next";
+import { AliasedLinkType } from "utils";
+import { handleErrorCode, tryCatchWrap } from "utils/api";
+import { authWrap } from "utils/auth";
+import { AliasedLink } from "utils/mongo";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
-) {
-  const session = await getSession({ req });
+): Promise<void> {
+  await authWrap(req, res, async (req, res) => {
+    if (req.method === "POST") {
+      await tryCatchWrap(req, res, async (req, res) => {
+        const { body }: { body: AliasedLinkType } = req;
+        const { alias } = body;
 
-  switch (session?.user?.email) {
-    case process.env.ADMIN_EMAIL: {
-      await mongoConnect();
+        const aliasExists = await AliasedLink.exists({ alias });
+        if (aliasExists) {
+          handleErrorCode(res, 409);
+          return;
+        }
 
-      if (req.method === "POST") {
-        const aliasedLink = await AliasedLink.create(req.body);
+        const aliasedLink = await AliasedLink.create(body);
         if (aliasedLink) {
           res.status(201).json(aliasedLink);
         } else {
-          res.status(400);
+          handleErrorCode(res, 400);
         }
-      } else {
-        res.status(405);
-      }
+      });
+    } else {
+      handleErrorCode(res, 405);
     }
-
-    case undefined: {
-      res.status(401);
-    }
-
-    default: {
-      res.status(403);
-    }
-  }
+  });
 }

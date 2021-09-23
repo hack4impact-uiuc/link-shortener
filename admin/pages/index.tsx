@@ -1,18 +1,28 @@
-import { useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { Space, Switch } from "antd";
-import { AliasedLinkTable, NewButton } from "../components";
-import { AliasedLink, mongoConnect, AliasedLinkType } from "../utils";
+import { AliasedLinkTable, NewButton } from "components";
+import { AliasedLinkType } from "utils";
+import Context from "utils/context";
+import { AliasedLink, mongoConnect } from "utils/mongo";
 
 interface HomeProps {
   aliasedLinks: AliasedLinkType[];
   status: "Unauthenticated" | "Unauthorized" | "Authorized";
+  error?: string;
 }
 
-export default function Home(props: HomeProps) {
-  const { aliasedLinks, status } = props;
+export default function Home(props: HomeProps): ReactElement {
+  const { aliasedLinks, error, status } = props;
   const [orderChangingEnabled, setOrderChangingEnabled] = useState(false);
+  const { setError } = useContext(Context);
+
+  useEffect(() => {
+    if (error !== undefined) {
+      setError(error);
+    }
+  }, [error, setError]);
 
   switch (status) {
     case "Authorized": {
@@ -51,18 +61,28 @@ export const getServerSideProps: GetServerSideProps = async function (context) {
   const session = await getSession(context);
   switch (session?.user?.email) {
     case process.env.ADMIN_EMAIL: {
-      await mongoConnect();
+      try {
+        await mongoConnect();
 
-      const aliasedLinks = await AliasedLink.find().sort({ order: 1 }).lean();
-      // @ts-ignore
-      aliasedLinks.forEach((link) => (link._id = link._id.toString()));
+        const aliasedLinks = await AliasedLink.find().sort({ order: 1 }).lean();
+        // @ts-ignore
+        aliasedLinks.forEach((link) => (link._id = link._id.toString()));
 
-      return {
-        props: {
-          aliasedLinks,
-          status: "Authorized",
-        },
-      };
+        return {
+          props: {
+            aliasedLinks,
+            status: "Authorized",
+          },
+        };
+      } catch {
+        return {
+          props: {
+            aliasedLinks: [],
+            status: "Authorized",
+            error: "Server error - please file an issue.",
+          },
+        };
+      }
     }
     case undefined: {
       return {
@@ -80,12 +100,5 @@ export const getServerSideProps: GetServerSideProps = async function (context) {
         },
       };
     }
-  }
-
-  if (session) {
-  } else {
-    return {
-      props: {},
-    };
   }
 };

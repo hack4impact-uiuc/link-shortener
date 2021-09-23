@@ -1,8 +1,10 @@
+import { ReactElement } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp(props: AppProps): ReactElement {
+  const { Component, pageProps } = props;
   return (
     <>
       <Head>
@@ -10,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <meta name="theme-color" content="#155DA1" />
         <title>Link Shortener | Hack4Impact UIUC</title>
+        <meta name="description" content="Hack4Impact UIUC's link shortener." />
         <link
           rel="manifest"
           href="manifest.json"

@@ -35,12 +35,14 @@ export const getServerSideProps: GetServerSideProps = async function () {
   const aliasedLinks = await AliasedLink.find({ public: true })
     .sort({ order: 1 })
     .lean();
-  // @ts-ignore
-  aliasedLinks.forEach((link) => delete link._id);
 
   return {
     props: {
-      aliasedLinks,
+      aliasedLinks: aliasedLinks.map(({ alias, destination, name }) => ({
+        alias,
+        destination,
+        name,
+      })),
     },
   };
 };

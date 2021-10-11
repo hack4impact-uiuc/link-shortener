@@ -73,6 +73,14 @@ a {
   justify-content: space-between;
 }
 
+.table-toolbar {
+  margin-bottom: 20px;
+}
+
+.table-toolbar h2 {
+  margin: 0;
+}
+
 tr.drop-over-downward td {
   border-bottom: 2px dashed #1890ff;
 }

@@ -1,11 +1,19 @@
-import { ReactElement, useContext, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import { Space, Switch } from "antd";
+import { Input, Space, Switch } from "antd";
 import { AliasedLinkTable, NewButton } from "components";
 import { AliasedLinkType } from "utils";
 import Context from "utils/context";
 import { AliasedLink, mongoConnect } from "utils/mongo";
+
+const { Search } = Input;
 
 interface HomeProps {
   aliasedLinks: AliasedLinkType[];
@@ -15,6 +23,7 @@ interface HomeProps {
 
 export default function Home(props: HomeProps): ReactElement {
   const { aliasedLinks, error, status } = props;
+  const [search, setSearch] = useState("");
   const [orderChangingEnabled, setOrderChangingEnabled] = useState(false);
   const { setError } = useContext(Context);
 
@@ -24,12 +33,36 @@ export default function Home(props: HomeProps): ReactElement {
     }
   }, [error, setError]);
 
+  function handleSearchChange(e: ChangeEvent<HTMLInputElement>): void {
+    setSearch(e.target.value);
+  }
+
+  function searchFilter(aliasedLink: AliasedLinkType): boolean {
+    const { alias, destination, name } = aliasedLink;
+    return (
+      alias.includes(search) ||
+      destination.includes(search) ||
+      name.includes(search)
+    );
+  }
+
   switch (status) {
     case "Authorized": {
       return (
         <>
-          <div className="row-center-space-between">
-            <h2>Aliased links</h2>
+          <div className="row-center-space-between table-toolbar">
+            <Space>
+              <h2>Aliased links</h2>
+            </Space>
+            <Space>
+              <Search
+                onChange={handleSearchChange}
+                onSearch={setSearch}
+                enterButton
+                allowClear
+              />
+            </Space>
+
             <Space>
               <Switch
                 checkedChildren="Order changing enabled"
@@ -41,7 +74,7 @@ export default function Home(props: HomeProps): ReactElement {
           </div>
           <div id="table-container">
             <AliasedLinkTable
-              aliasedLinks={aliasedLinks}
+              aliasedLinks={aliasedLinks.filter(searchFilter)}
               orderChangingEnabled={orderChangingEnabled}
             />
           </div>

@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   const aliasedLink = await AliasedLink.findOneAndUpdate(
     { alias },
-    { $inc: { hits: 1 } }
+    { $push: { hits: [Date.now()] } }
   );
 
   if (aliasedLink) {

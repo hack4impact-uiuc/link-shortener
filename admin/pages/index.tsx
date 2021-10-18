@@ -62,7 +62,6 @@ export default function Home(props: HomeProps): ReactElement {
                 allowClear
               />
             </Space>
-
             <Space>
               <Switch
                 checkedChildren="Order changing enabled"

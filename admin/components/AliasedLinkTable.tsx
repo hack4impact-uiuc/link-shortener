@@ -148,9 +148,7 @@ export default function AliasedLinkTable(
             a.hits.length - b.hits.length
           }
           render={(_, aliasedLink: AliasedLinkType) => (
-            <Space>
-              <PageViewChart aliasedLink={aliasedLink} />
-            </Space>
+            <PageViewChart aliasedLink={aliasedLink} />
           )}
         />
         <Column

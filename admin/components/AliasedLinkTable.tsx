@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Space, Table } from "antd";
 import { DndProvider } from "react-dnd";
@@ -18,6 +19,7 @@ import { updateLinkOrders } from "utils/api";
 import Context from "utils/context";
 
 const { Column } = Table;
+const PageViewChart = dynamic(() => import("./PageViewChart"), { ssr: false });
 
 interface AliasedLinkTableProps {
   aliasedLinks: AliasedLinkType[];
@@ -139,13 +141,17 @@ export default function AliasedLinkTable(
           }
         />
         <Column
-          title="Hits"
+          title="Page Views"
           dataIndex="hits"
           key="hits"
           sorter={(a: AliasedLinkType, b: AliasedLinkType) =>
             a.hits.length - b.hits.length
           }
-          render={(hits) => hits.length}
+          render={(_, aliasedLink: AliasedLinkType) => (
+            <Space>
+              <PageViewChart aliasedLink={aliasedLink} />
+            </Space>
+          )}
         />
         <Column
           title="Actions"

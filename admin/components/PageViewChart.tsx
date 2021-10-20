@@ -32,7 +32,7 @@ export default function PageViewChart(props: PageViewChartProps): ReactElement {
       const latestEntry = newChartEntries[newChartEntries.length - 1];
 
       if (latestEntry?.date === date) {
-        latestEntry.date += 1;
+        latestEntry.hits += 1;
       } else {
         newChartEntries.push({ date, hits: 1 });
       }

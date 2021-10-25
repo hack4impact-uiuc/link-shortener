@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { Button, Modal, Tooltip } from "antd";
 import { Line } from "@ant-design/charts";
 import { AliasedLinkType } from "utils";
+import { dateToString, generateTimeSeries } from "utils/date";
 
 interface PageViewChartProps {
   aliasedLink: AliasedLinkType;
@@ -12,11 +13,6 @@ interface ChartEntry {
   hits: number;
 }
 
-function getDayString(timestamp: number): string {
-  const date = new Date(timestamp);
-  return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
-}
-
 export default function PageViewChart(props: PageViewChartProps): ReactElement {
   const { aliasedLink } = props;
   const { hits, name } = aliasedLink;
@@ -24,21 +20,14 @@ export default function PageViewChart(props: PageViewChartProps): ReactElement {
   const [chartEntries, setChartEntries] = useState<ChartEntry[]>([]);
 
   useEffect(() => {
-    const newChartEntries: ChartEntry[] = [];
+    const timeSeries = generateTimeSeries(hits);
 
-    hits.sort();
-    hits.forEach((hit) => {
-      const date = getDayString(hit);
-      const latestEntry = newChartEntries[newChartEntries.length - 1];
-
-      if (latestEntry?.date === date) {
-        latestEntry.hits += 1;
-      } else {
-        newChartEntries.push({ date, hits: 1 });
-      }
-    });
-
-    setChartEntries(newChartEntries);
+    setChartEntries(
+      timeSeries.map(({ date, instances }) => ({
+        hits: instances,
+        date: dateToString(date),
+      }))
+    );
   }, [hits]);
 
   function toggleModal(): void {
@@ -55,6 +44,7 @@ export default function PageViewChart(props: PageViewChartProps): ReactElement {
       <Modal
         visible={modal}
         closable={false}
+        onCancel={toggleModal}
         footer={[
           <Button type="primary" key="back" onClick={toggleModal}>
             Exit

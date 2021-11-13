@@ -5,21 +5,13 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "components": [
-        "./components"
-      ],
-      "utils": [
-        "./utils"
-      ]
+      "components": ["./components"],
+      "utils": ["./utils"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -28,12 +20,6 @@
     "esModuleInterop": true,
     "incremental": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
